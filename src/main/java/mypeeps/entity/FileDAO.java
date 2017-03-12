@@ -211,7 +211,7 @@ public class FileDAO implements DAO
         {
             PEOPLE.forEach(p ->
             {
-               p.getEvents().remove(e);
+                p.getEvents().remove(e);
             });
         });
         EVENTS.removeAll(dead);

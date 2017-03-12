@@ -3,10 +3,13 @@ package mypeeps;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import static java.lang.System.exit;
+import java.util.List;
 import static java.util.Objects.requireNonNull;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import static mypeeps.Utils.log;
+import static mypeeps.Utils.toListModel;
 import mypeeps.entity.DAO;
+import mypeeps.entity.Person;
 import mypeeps.ui.Top;
 
 public class App
@@ -35,6 +38,22 @@ public class App
     public void start()
     {
         log(App.class, "start()");
+        refreshPeopleList();
         TOP.show();
+    }
+
+    private void refreshPeopleList()
+    {
+        List<Person> all = DB.readPeople();
+        Person p = TOP.PEOPLE.getSelectedValue();
+        TOP.PEOPLE.setModel(toListModel(all));
+        if(p != null && all.contains(p))
+        {
+            TOP.PEOPLE.setSelectedValue(p, true);
+        }
+        else
+        {
+            TOP.PEOPLE.setSelectedIndex(0);
+        }
     }
 }
