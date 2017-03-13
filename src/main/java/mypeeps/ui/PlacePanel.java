@@ -2,15 +2,20 @@ package mypeeps.ui;
 
 import java.awt.BorderLayout;
 import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
 import static java.awt.BorderLayout.WEST;
 import java.awt.GridLayout;
 import java.io.File;
+import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.selectOnFocus;
 import mypeeps.entity.Attachment;
+import mypeeps.entity.Place;
 
 public class PlacePanel extends ValidPanel<Place>
 {
@@ -42,7 +47,7 @@ public class PlacePanel extends ValidPanel<Place>
         north.add(fields, CENTER);
         
         notesField = new JTextArea(5, 20);
-        JScrollPane scroll = new JScrollPane(notes);
+        JScrollPane scroll = new JScrollPane(notesField);
         scroll.setBorder(createTitledBorder("notes"));
         
         setLayout(new BorderLayout(5, 5));
@@ -53,40 +58,31 @@ public class PlacePanel extends ValidPanel<Place>
     @Override
     public void updateFields()
     {
-        log(AttachmentPanel.class, "updateFields()");
-        fileNameField.setText(getEntity().getFileName());
-        descriptionField.setText(getEntity().getDescription());
+        log(PlacePanel.class, "updateFields()");
+        nameField.setText(getEntity().getName());
+        notesField.setText(getEntity().getNotes());
     }
 
     @Override
     public void updateEntity()
     {
-        log(AttachmentPanel.class, "updateEntity()");
-        getEntity().setFileName(fileNameField.getText());
-        getEntity().setDescription(descriptionField.getText());
+        log(PlacePanel.class, "updateEntity()");
+        getEntity().setName(nameField.getText());
+        getEntity().setNotes(notesField.getText());
     }
 
     @Override
     public boolean doValidation()
     {
-        log(AttachmentPanel.class, "doValidation()");
-        String fname = fileNameField.getText();
-        fname = fname == null ? "" : fname.trim();
-        fileNameField.setText(fname);
+        log(PlacePanel.class, "doValidation()");
+        String name = nameField.getText();
+        name = name == null ? "" : name.trim();
+        nameField.setText(name);
         
-        if(fname.length() == 0)
+        if(name.length() == 0)
         {
             warning("file name is required");
-            fileNameField.requestFocus();
-            return false;
-        }
-        
-        File file = new File(fname);
-        
-        if(!file.exists())
-        {
-            warning(fname + " does not exist");
-            fileNameField.requestFocus();
+            nameField.requestFocus();
             return false;
         }
         

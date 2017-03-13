@@ -7,6 +7,7 @@ import static java.awt.BorderLayout.WEST;
 import java.awt.GridLayout;
 import java.util.Date;
 import static javax.swing.BorderFactory.createTitledBorder;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import static mypeeps.Utils.FMT;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.selectOnFocus;
 import mypeeps.entity.Event;
+import mypeeps.entity.Person;
 
 public class PersonPanel extends ValidPanel<Person>
 {
@@ -72,7 +74,7 @@ public class PersonPanel extends ValidPanel<Person>
         Person p = getEntity();
         givenNameField.setText(p.getGivenName());
         familyNameField.setText(p.getFamilyName());
-        genderField.setValue(p.getGender());
+        genderField.setSelectedItem(p.getGender());
         notesField.setText(p.getNotes());
     }
 
@@ -83,7 +85,7 @@ public class PersonPanel extends ValidPanel<Person>
         Person p = getEntity();
         p.setGivenName(givenNameField.getText());
         p.setFamilyName(familyNameField.getText());
-        p.setGender((String) genderField.getValue());
+        p.setGender((String) genderField.getSelectedItem());
         p.setNotes(notesField.getText());
     }
 
@@ -91,6 +93,29 @@ public class PersonPanel extends ValidPanel<Person>
     public boolean doValidation()
     {
         log(PersonPanel.class, "doValidation()");
+        
+        String gname = givenNameField.getText();
+        gname = gname == null ? "" : gname.trim();
+        givenNameField.setText(gname);
+        
+        if(gname.length() == 0)
+        {
+            warning("given name is required");
+            givenNameField.requestFocus();
+            return false;
+        }
+        
+        String fname = familyNameField.getText();
+        fname = fname == null ? "" : fname.trim();
+        familyNameField.setText(fname);
+        
+        if(fname.length() == 0)
+        {
+            warning("family name is required");
+            familyNameField.requestFocus();
+            return false;
+        }
+        
         return true;
     }
 }
