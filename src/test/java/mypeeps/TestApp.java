@@ -1,17 +1,13 @@
 package mypeeps;
 
-import java.awt.Event;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import static java.lang.System.getProperty;
 import java.util.TreeSet;
 import static mypeeps.Utils.log;
-import mypeeps.entity.Attachment;
 import mypeeps.entity.DAO;
 import mypeeps.entity.FileDAO;
-import mypeeps.entity.Person;
-import mypeeps.entity.Place;
 
 public class TestApp
 {
@@ -37,10 +33,10 @@ public class TestApp
                     {
                         ObjectOutputStream out = new ObjectOutputStream(stream);
                         out.writeLong(1);
-                        out.writeObject(new TreeSet<Attachment>());
-                        out.writeObject(new TreeSet<Event>());
-                        out.writeObject(new TreeSet<Person>());
-                        out.writeObject(new TreeSet<Place>());
+                        out.writeObject(new TreeSet<>());
+                        out.writeObject(new TreeSet<>());
+                        out.writeObject(new TreeSet<>());
+                        out.writeObject(new TreeSet<>());
                         out.flush();
                     }
                 }

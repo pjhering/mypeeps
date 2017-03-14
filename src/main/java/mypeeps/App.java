@@ -7,9 +7,11 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import static mypeeps.Utils.log;
+import static mypeeps.Utils.popup;
 import static mypeeps.Utils.toListModel;
 import mypeeps.entity.DAO;
 import mypeeps.entity.Person;
+import mypeeps.ui.PersonPanel;
 import mypeeps.ui.Top;
 
 public class App
@@ -33,6 +35,11 @@ public class App
                 exit(0);
             }
         });
+        TOP.PEOPLE.addListSelectionListener(a0 -> doPeopleListSelectionChanged());
+        TOP.PEOPLE.addMouseListener(popup("people", TOP.CREATE));
+        TOP.UPDATE.addActionListener(a1 -> doUpdatePersonAction());
+        TOP.DELETE.addActionListener(a2 -> doDeletePersonAction());
+        TOP.CREATE.addActionListener(a3 -> doCreatePersonAction());
     }
 
     public void start()
@@ -44,6 +51,7 @@ public class App
 
     private void refreshPeopleList()
     {
+        log(App.class, "refreshPeopleList()");
         List<Person> all = DB.readPeople();
         Person p = TOP.PEOPLE.getSelectedValue();
         TOP.PEOPLE.setModel(toListModel(all));
@@ -55,5 +63,33 @@ public class App
         {
             TOP.PEOPLE.setSelectedIndex(0);
         }
+    }
+
+    private void doPeopleListSelectionChanged()
+    {
+        log(App.class, "doPeopleListSelectionChanged()");
+        Person p = TOP.PEOPLE.getSelectedValue();
+        
+        if(p == null)
+        {
+            return;
+        }
+        
+        TOP.setRightPane(new PersonPanel(p));
+    }
+
+    private void doUpdatePersonAction()
+    {
+        log(App.class, "doUpdatePersonAction()");
+    }
+
+    private void doDeletePersonAction()
+    {
+        log(App.class, "doDeletePersonAction()");
+    }
+
+    private void doCreatePersonAction()
+    {
+        log(App.class, "doCreatePersonAction()");
     }
 }

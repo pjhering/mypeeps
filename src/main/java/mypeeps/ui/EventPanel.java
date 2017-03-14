@@ -91,6 +91,6 @@ public class EventPanel extends ValidPanel<Event>
     public boolean doValidation()
     {
         log(EventPanel.class, "doValidation()");
-        return true;
+        return required("title", titleField) && required("date", dateField);
     }
 }

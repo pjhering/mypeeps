@@ -75,17 +75,6 @@ public class PlacePanel extends ValidPanel<Place>
     public boolean doValidation()
     {
         log(PlacePanel.class, "doValidation()");
-        String name = nameField.getText();
-        name = name == null ? "" : name.trim();
-        nameField.setText(name);
-        
-        if(name.length() == 0)
-        {
-            warning("file name is required");
-            nameField.requestFocus();
-            return false;
-        }
-        
-        return true;
+        return required("name", nameField);
     }
 }

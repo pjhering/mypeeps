@@ -94,28 +94,7 @@ public class PersonPanel extends ValidPanel<Person>
     {
         log(PersonPanel.class, "doValidation()");
         
-        String gname = givenNameField.getText();
-        gname = gname == null ? "" : gname.trim();
-        givenNameField.setText(gname);
-        
-        if(gname.length() == 0)
-        {
-            warning("given name is required");
-            givenNameField.requestFocus();
-            return false;
-        }
-        
-        String fname = familyNameField.getText();
-        fname = fname == null ? "" : fname.trim();
-        familyNameField.setText(fname);
-        
-        if(fname.length() == 0)
-        {
-            warning("family name is required");
-            familyNameField.requestFocus();
-            return false;
-        }
-        
-        return true;
+        return required("given name", givenNameField) &&
+                required("family name", familyNameField);
     }
 }

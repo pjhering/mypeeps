@@ -14,7 +14,7 @@ import mypeeps.entity.Attachment;
 
 public class AttachmentPanel extends ValidPanel<Attachment>
 {
-    
+
     public JTextField fileNameField;
     public JTextField descriptionField;
 
@@ -25,7 +25,7 @@ public class AttachmentPanel extends ValidPanel<Attachment>
         init();
         updateFields();
     }
-    
+
     private void init()
     {
         log(AttachmentPanel.class, "init()");
@@ -36,11 +36,11 @@ public class AttachmentPanel extends ValidPanel<Attachment>
         JPanel fields = new JPanel(new GridLayout(2, 1, 5, 5));
         fields.add(fileNameField);
         fields.add(descriptionField);
-        
+
         JPanel labels = new JPanel(new GridLayout(2, 1, 5, 5));
         labels.add(new JLabel("file name"));
         labels.add(new JLabel("description"));
-        
+
         setLayout(new BorderLayout(5, 5));
         add(labels, WEST);
         add(fields, CENTER);
@@ -66,26 +66,21 @@ public class AttachmentPanel extends ValidPanel<Attachment>
     public boolean doValidation()
     {
         log(AttachmentPanel.class, "doValidation()");
-        String fname = fileNameField.getText();
-        fname = fname == null ? "" : fname.trim();
-        fileNameField.setText(fname);
-        
-        if(fname.length() == 0)
+
+        if(required("file name", fileNameField))
         {
-            warning("file name is required");
-            fileNameField.requestFocus();
-            return false;
+            String fname = fileNameField.getText();
+            
+            File file = new File(fname);
+
+            if(!file.exists())
+            {
+                warning(fname + " does not exist");
+                fileNameField.requestFocus();
+                return false;
+            }
         }
-        
-        File file = new File(fname);
-        
-        if(!file.exists())
-        {
-            warning(fname + " does not exist");
-            fileNameField.requestFocus();
-            return false;
-        }
-        
+
         return true;
     }
 }

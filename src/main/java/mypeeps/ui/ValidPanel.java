@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
 import mypeeps.entity.AbstractEntity;
 
 abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
@@ -24,6 +25,22 @@ abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
     public E getEntity()
     {
         return entity;
+    }
+    
+    protected boolean required(String name, JTextComponent jtc)
+    {
+        String s = jtc.getText();
+        s = s == null ? "" : s.trim();
+        jtc.setText(s);
+        
+        if(s.length() == 0)
+        {
+            warning(name + " is required");
+            jtc.requestFocus();
+            return false;
+        }
+        
+        return true;
     }
     
     protected void warning(String text)
