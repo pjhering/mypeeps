@@ -80,7 +80,7 @@ public class Utils
 
     public static void log(Class c, Object o)
     {
-        out.print(format("%-30s", c.getName(), o).replace(' ', '.'));
+        out.print(format("%-40s", c.getName(), o).replace(' ', '.'));
         out.println(o);
         out.flush();
     }

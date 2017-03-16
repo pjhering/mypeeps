@@ -5,19 +5,15 @@ import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
 import static java.awt.BorderLayout.WEST;
 import java.awt.GridLayout;
-import java.util.Date;
 import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import static mypeeps.Utils.FMT;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.selectOnFocus;
-import mypeeps.entity.Event;
 import mypeeps.entity.Person;
 
 public class PersonPanel extends ValidPanel<Person>

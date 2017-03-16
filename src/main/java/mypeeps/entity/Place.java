@@ -1,5 +1,6 @@
 package mypeeps.entity;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import static mypeeps.Utils.log;
@@ -81,5 +82,38 @@ public class Place extends AbstractEntity
         {
             throw new NullPointerException("null Place");
         }
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        log(Place.class, "equals(Object)");
+        if(this == obj)
+        {
+            return true;
+        }
+        if(obj == null)
+        {
+            return false;
+        }
+        if(getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Place other = (Place) obj;
+        if(!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        log(Place.class, "hashCode()");
+        int hash = 17;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 }

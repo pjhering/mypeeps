@@ -5,7 +5,6 @@ import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
 import static java.awt.BorderLayout.WEST;
 import java.awt.GridLayout;
-import java.io.File;
 import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,7 +13,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.selectOnFocus;
-import mypeeps.entity.Attachment;
 import mypeeps.entity.Place;
 
 public class PlacePanel extends ValidPanel<Place>

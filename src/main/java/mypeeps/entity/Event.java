@@ -1,6 +1,7 @@
 package mypeeps.entity;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import static mypeeps.Utils.FMT;
@@ -97,7 +98,7 @@ public class Event extends AbstractEntity
         log(Event.class, "compareTo(AbstractEntity)");
         if(o != null)
         {
-            if(o instanceof Person)
+            if(o instanceof Event)
             {
                 return date.compareTo(((Event) o).date);
             }
@@ -110,5 +111,38 @@ public class Event extends AbstractEntity
         {
             throw new NullPointerException("null AbstractEntity");
         }
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        log(Event.class, "equals(Object)");
+        if(this == obj)
+        {
+            return true;
+        }
+        if(obj == null)
+        {
+            return false;
+        }
+        if(getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Event other = (Event) obj;
+        if(!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        log(Event.class, "hashCode()");
+        int hash = 11;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 }

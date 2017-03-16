@@ -7,7 +7,7 @@ import static java.lang.System.getProperty;
 import java.util.TreeSet;
 import static mypeeps.Utils.log;
 import mypeeps.entity.DAO;
-import mypeeps.entity.FileDAO;
+import mypeeps.entity.MemoryDAO;
 
 public class TestApp
 {
@@ -43,7 +43,7 @@ public class TestApp
             }
         }
 
-        DAO dao = new FileDAO(data);
+        DAO dao = new MemoryDAO(data);
         App app = new App(dao);
         app.start();
     }

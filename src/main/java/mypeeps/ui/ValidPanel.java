@@ -5,6 +5,7 @@ import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
+import static mypeeps.Utils.log;
 import mypeeps.entity.AbstractEntity;
 
 abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
@@ -13,6 +14,7 @@ abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
     
     public ValidPanel(E entity)
     {
+        log(ValidPanel.class, "ValidPanel(E)");
         this.entity = requireNonNull(entity);
     }
     
@@ -24,11 +26,13 @@ abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
     
     public E getEntity()
     {
+        log(ValidPanel.class, "getEntity()");
         return entity;
     }
     
     protected boolean required(String name, JTextComponent jtc)
     {
+        log(ValidPanel.class, "required(String, JTextComponent)");
         String s = jtc.getText();
         s = s == null ? "" : s.trim();
         jtc.setText(s);
@@ -45,6 +49,7 @@ abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
     
     protected void warning(String text)
     {
+        log(ValidPanel.class, "warning(String)");
         showMessageDialog(this, text, "warning", WARNING_MESSAGE);
     }
 }

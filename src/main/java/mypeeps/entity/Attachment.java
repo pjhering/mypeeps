@@ -1,5 +1,6 @@
 package mypeeps.entity;
 
+import java.util.Objects;
 import static mypeeps.Utils.log;
 
 public class Attachment extends AbstractEntity
@@ -57,7 +58,7 @@ public class Attachment extends AbstractEntity
     public int compareTo(AbstractEntity o)
     {
         log(Attachment.class, "compareTo(AbstractEntity)");
-        if(o == null)
+        if(o != null)
         {
             if(o instanceof Attachment)
             {
@@ -72,5 +73,38 @@ public class Attachment extends AbstractEntity
         {
             throw new NullPointerException("null Atachment");
         }
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        log(Attachment.class, "equals(Object)");
+        if(this == obj)
+        {
+            return true;
+        }
+        if(obj == null)
+        {
+            return false;
+        }
+        if(getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Attachment other = (Attachment) obj;
+        if(!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        log(Attachment.class, "hashCode()");
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 }

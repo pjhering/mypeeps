@@ -1,5 +1,6 @@
 package mypeeps.entity;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import static mypeeps.Utils.log;
@@ -103,6 +104,39 @@ public class Person extends AbstractEntity
         log(Person.class, "getAttachments()");
         return attachments;
     }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        log(Person.class, "equals(Object)");
+        if(this == obj)
+        {
+            return true;
+        }
+        if(obj == null)
+        {
+            return false;
+        }
+        if(getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Person other = (Person) obj;
+        if(!Objects.equals(this.id, other.id))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        log(Person.class, "hashCode()");
+        int hash = 13;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
 
     @Override
     public String toString()
@@ -122,7 +156,7 @@ public class Person extends AbstractEntity
                 Person p = (Person) o;
                 int value = this.familyName.compareTo(p.familyName);
 
-                if(value != 0)
+                if(value == 0)
                 {
                     return this.givenName.compareTo(p.givenName);
                 }
