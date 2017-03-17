@@ -6,6 +6,7 @@ import static mypeeps.ui.Preview.showInJFrame;
 
 public class PreviewPlacePanel
 {
+
     public static void main(String[] args)
     {
         log(PreviewPlacePanel.class, "main(String[])");

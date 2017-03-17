@@ -8,6 +8,7 @@ import static mypeeps.ui.Preview.showInJFrame;
 
 public class PreviewEventPanel
 {
+
     public static void main(String[] args)
     {
         log(PreviewEventPanel.class, "main(String[])");

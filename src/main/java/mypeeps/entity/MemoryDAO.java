@@ -16,26 +16,26 @@ public class MemoryDAO implements DAO, Serializable
 {
 
     static final long serialVersionUID = 1L;
-    
+
     private final Set<Attachment> ATTACHMENTS = new HashSet<>();
     private final Set<Event> EVENTS = new HashSet<>();
     private final Set<Person> PEOPLE = new HashSet<>();
     private final Set<Place> PLACES = new HashSet<>();
     private final File file;
     private long id;
-    
+
     public MemoryDAO()
     {
         log(MemoryDAO.class, "MemoryDAO()");
         file = null;
     }
-    
+
     public MemoryDAO(File file)
     {
         log(MemoryDAO.class, "MemoryDAO(File)");
         this.file = file;
-        
-        if(file != null)
+
+        if (file != null)
         {
             load();
         }
@@ -45,16 +45,16 @@ public class MemoryDAO implements DAO, Serializable
     public void shutDown()
     {
         log(MemoryDAO.class, "shutDown()");
-        if(file != null)
+        if (file != null)
         {
             store();
         }
     }
-    
+
     private void load()
     {
         log(MemoryDAO.class, "load()");
-        try(FileInputStream stream = new FileInputStream(file))
+        try (FileInputStream stream = new FileInputStream(file))
         {
             ObjectInputStream in = new ObjectInputStream(stream);
             id = in.readLong();
@@ -63,16 +63,16 @@ public class MemoryDAO implements DAO, Serializable
             PEOPLE.addAll((Set) in.readObject());
             PLACES.addAll((Set) in.readObject());
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             log(MemoryDAO.class, ex);
         }
     }
-    
+
     private void store()
     {
         log(MemoryDAO.class, "store()");
-        try(FileOutputStream stream = new FileOutputStream(file))
+        try (FileOutputStream stream = new FileOutputStream(file))
         {
             ObjectOutputStream out = new ObjectOutputStream(stream);
             out.writeLong(id);
@@ -82,7 +82,7 @@ public class MemoryDAO implements DAO, Serializable
             out.writeObject(PLACES);
             out.flush();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             log(MemoryDAO.class, ex);
         }
@@ -91,7 +91,7 @@ public class MemoryDAO implements DAO, Serializable
     private boolean nullId(AbstractEntity x)
     {
         log(MemoryDAO.class, "nullId(AbstractEntity)");
-        if(x.getId() != null)
+        if (x.getId() != null)
         {
             throw new DAOException("id != null");
         }
@@ -102,11 +102,11 @@ public class MemoryDAO implements DAO, Serializable
     private boolean nonNullId(AbstractEntity x)
     {
         log(MemoryDAO.class, "nonNullId(AbstractEntity)");
-        if(x.getId() == null)
+        if (x.getId() == null)
         {
             throw new DAOException("id == null");
         }
-        
+
         return true;
     }
 
@@ -114,7 +114,7 @@ public class MemoryDAO implements DAO, Serializable
     public Attachment create(Attachment x)
     {
         log(MemoryDAO.class, "create(Attachment)");
-        if(nullId(x))
+        if (nullId(x))
         {
             x.setId(id++);
             ATTACHMENTS.add(x);
@@ -127,18 +127,18 @@ public class MemoryDAO implements DAO, Serializable
     public Event create(Event x)
     {
         log(MemoryDAO.class, "create(Event)");
-        if(nullId(x))
+        if (nullId(x))
         {
             x.setId(id++);
             EVENTS.add(x);
 
-            if(x.getPlace().getId() == null)
+            if (x.getPlace().getId() == null)
             {
                 create(x.getPlace());
             }
             else
             {
-                if(!PLACES.contains(x.getPlace()))
+                if (!PLACES.contains(x.getPlace()))
                 {
                     PLACES.add(x.getPlace());
                 }
@@ -146,7 +146,7 @@ public class MemoryDAO implements DAO, Serializable
 
             x.getAttachments().forEach(a ->
             {
-                if(a.getId() == null)
+                if (a.getId() == null)
                 {
                     create(a);
                 }
@@ -160,7 +160,7 @@ public class MemoryDAO implements DAO, Serializable
     public Person create(Person x)
     {
         log(MemoryDAO.class, "create(Person)");
-        if(nullId(x))
+        if (nullId(x))
         {
             x.setId(id++);
             PEOPLE.add(x);
@@ -168,13 +168,13 @@ public class MemoryDAO implements DAO, Serializable
 
         x.getChildren().forEach(child ->
         {
-            if(child.getId() == null)
+            if (child.getId() == null)
             {
                 create(child);
             }
             else
             {
-                if(!PEOPLE.contains(child))
+                if (!PEOPLE.contains(child))
                 {
                     PEOPLE.add(child);
                 }
@@ -183,13 +183,13 @@ public class MemoryDAO implements DAO, Serializable
 
         x.getParents().forEach(parent ->
         {
-            if(parent.getId() == null)
+            if (parent.getId() == null)
             {
                 create(parent);
             }
             else
             {
-                if(!PEOPLE.contains(parent))
+                if (!PEOPLE.contains(parent))
                 {
                     PEOPLE.add(parent);
                 }
@@ -198,13 +198,13 @@ public class MemoryDAO implements DAO, Serializable
 
         x.getEvents().forEach(event ->
         {
-            if(event.getId() == null)
+            if (event.getId() == null)
             {
                 create(event);
             }
             else
             {
-                if(!EVENTS.contains(event))
+                if (!EVENTS.contains(event))
                 {
                     EVENTS.add(event);
                 }
@@ -213,13 +213,13 @@ public class MemoryDAO implements DAO, Serializable
 
         x.getAttachments().forEach(file ->
         {
-            if(file.getId() == null)
+            if (file.getId() == null)
             {
                 create(file);
             }
             else
             {
-                if(!ATTACHMENTS.contains(file))
+                if (!ATTACHMENTS.contains(file))
                 {
                     ATTACHMENTS.add(file);
                 }
@@ -233,7 +233,7 @@ public class MemoryDAO implements DAO, Serializable
     public Place create(Place x)
     {
         log(MemoryDAO.class, "create(Place)");
-        if(nullId(x))
+        if (nullId(x))
         {
             x.setId(id++);
             PLACES.add(x);
@@ -241,19 +241,19 @@ public class MemoryDAO implements DAO, Serializable
 
         x.getAttachments().forEach(file ->
         {
-            if(file.getId() == null)
+            if (file.getId() == null)
             {
                 create(file);
             }
             else
             {
-                if(!ATTACHMENTS.contains(file))
+                if (!ATTACHMENTS.contains(file))
                 {
                     ATTACHMENTS.add(file);
                 }
             }
         });
-        
+
         return x;
     }
 
@@ -261,11 +261,11 @@ public class MemoryDAO implements DAO, Serializable
     public boolean delete(Attachment x)
     {
         log(MemoryDAO.class, "delete(Attachment)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
             return ATTACHMENTS.remove(x);
         }
-        
+
         return false;
     }
 
@@ -273,11 +273,11 @@ public class MemoryDAO implements DAO, Serializable
     public boolean delete(Event x)
     {
         log(MemoryDAO.class, "delete(Event)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
             return EVENTS.remove(x);
         }
-        
+
         return false;
     }
 
@@ -285,11 +285,11 @@ public class MemoryDAO implements DAO, Serializable
     public boolean delete(Person x)
     {
         log(MemoryDAO.class, "delete(Person)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
             return PEOPLE.remove(x);
         }
-        
+
         return false;
     }
 
@@ -297,23 +297,23 @@ public class MemoryDAO implements DAO, Serializable
     public boolean delete(Place x)
     {
         log(MemoryDAO.class, "delete(Place)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
             PLACES.remove(x);
-            
+
             Set<Event> dead = new HashSet<>();
-            
+
             EVENTS.forEach(event ->
             {
-                if(x.equals(event.getPlace()))
+                if (x.equals(event.getPlace()))
                 {
                     dead.add(event);
                 }
             });
-            
+
             dead.forEach(event -> delete(event));
         }
-        
+
         return false;
     }
 
@@ -328,13 +328,13 @@ public class MemoryDAO implements DAO, Serializable
     public boolean update(Event x)
     {
         log(MemoryDAO.class, "update(Event)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
-            if(EVENTS.contains(x))
+            if (EVENTS.contains(x))
             {
                 x.getAttachments().forEach(file ->
                 {
-                    if(file.getId() != null)
+                    if (file.getId() != null)
                     {
                         update(file);
                     }
@@ -345,7 +345,7 @@ public class MemoryDAO implements DAO, Serializable
                 });
             }
         }
-        
+
         return false;
     }
 
@@ -353,15 +353,15 @@ public class MemoryDAO implements DAO, Serializable
     public boolean update(Person x)
     {
         log(MemoryDAO.class, "update(Person)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
-            if(PEOPLE.contains(x))
+            if (PEOPLE.contains(x))
             {
                 x.getChildren().forEach(child ->
                 {
-                    if(!x.equals(child))
+                    if (!x.equals(child))
                     {
-                        if(child.getId() != null)
+                        if (child.getId() != null)
                         {
                             update(child);
                         }
@@ -373,9 +373,9 @@ public class MemoryDAO implements DAO, Serializable
                 });
                 x.getParents().forEach(parent ->
                 {
-                    if(!x.equals(parent))
+                    if (!x.equals(parent))
                     {
-                        if(parent.getId() != null)
+                        if (parent.getId() != null)
                         {
                             update(parent);
                         }
@@ -387,7 +387,7 @@ public class MemoryDAO implements DAO, Serializable
                 });
                 x.getEvents().forEach(event ->
                 {
-                    if(event.getId() != null)
+                    if (event.getId() != null)
                     {
                         update(event);
                     }
@@ -398,7 +398,7 @@ public class MemoryDAO implements DAO, Serializable
                 });
                 x.getAttachments().forEach(file ->
                 {
-                    if(file.getId() != null)
+                    if (file.getId() != null)
                     {
                         update(file);
                     }
@@ -409,7 +409,7 @@ public class MemoryDAO implements DAO, Serializable
                 });
             }
         }
-        
+
         return false;
     }
 
@@ -417,13 +417,13 @@ public class MemoryDAO implements DAO, Serializable
     public boolean update(Place x)
     {
         log(MemoryDAO.class, "update(Place)");
-        if(nonNullId(x))
+        if (nonNullId(x))
         {
-            if(PLACES.contains(x))
+            if (PLACES.contains(x))
             {
                 x.getAttachments().forEach(file ->
                 {
-                    if(file.getId() != null)
+                    if (file.getId() != null)
                     {
                         update(file);
                     }
@@ -434,7 +434,7 @@ public class MemoryDAO implements DAO, Serializable
                 });
             }
         }
-        
+
         return false;
     }
 

@@ -23,7 +23,7 @@ public class PersonPanel extends ValidPanel<Person>
     private JTextField familyNameField;
     private JComboBox<String> genderField;
     private JTextArea notesField;
-    
+
     public PersonPanel(Person entity)
     {
         super(entity);
@@ -31,7 +31,7 @@ public class PersonPanel extends ValidPanel<Person>
         init();
         updateFields();
     }
-    
+
     private void init()
     {
         log(PersonPanel.class, "init()");
@@ -39,25 +39,28 @@ public class PersonPanel extends ValidPanel<Person>
         selectOnFocus(givenNameField);
         familyNameField = new JTextField(20);
         selectOnFocus(familyNameField);
-        genderField = new JComboBox<>(new String[]{"", "female", "male"});
+        genderField = new JComboBox<>(new String[]
+        {
+            "", "female", "male"
+        });
         JPanel fields = new JPanel(new GridLayout(3, 1, 5, 5));
         fields.add(givenNameField);
         fields.add(familyNameField);
         fields.add(genderField);
-        
+
         JPanel labels = new JPanel(new GridLayout(3, 1, 5, 5));
         labels.add(new JLabel("given name"));
         labels.add(new JLabel("family name"));
         labels.add(new JLabel("gender"));
-        
+
         JPanel north = new JPanel(new BorderLayout(5, 5));
         north.add(labels, WEST);
         north.add(fields, CENTER);
-        
+
         notesField = new JTextArea(5, 20);
         JScrollPane scroll = new JScrollPane(notesField);
         scroll.setBorder(createTitledBorder("notes"));
-        
+
         setLayout(new BorderLayout(5, 5));
         add(north, NORTH);
         add(scroll, CENTER);
@@ -89,8 +92,8 @@ public class PersonPanel extends ValidPanel<Person>
     public boolean doValidation()
     {
         log(PersonPanel.class, "doValidation()");
-        
-        return required("given name", givenNameField) &&
-                required("family name", familyNameField);
+
+        return required("given name", givenNameField)
+                && required("family name", familyNameField);
     }
 }

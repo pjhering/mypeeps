@@ -53,12 +53,12 @@ public class Top
         SPLIT.setDividerLocation(0.5);
         FRAME.setContentPane(SPLIT);
         EMPTY = new JPanel();
-        
+
         PARENTS = new JList<>();
         CHILDREN = new JList<>();
         EVENTS = new JList<>();
         ATTACHMENTS = new JList<>();
-        
+
         JScrollPane scroll0 = new JScrollPane(PARENTS);
         scroll0.setBorder(createTitledBorder("parents"));
         JScrollPane scroll1 = new JScrollPane(CHILDREN);
@@ -72,24 +72,24 @@ public class Top
         LISTS.add(scroll1);
         LISTS.add(scroll2);
         LISTS.add(scroll3);
-        
+
         CREATE = new JMenuItem("create");
         UPDATE = new JButton("update");
         DELETE = new JButton("delete");
-        
+
         BUTTONS = new JPanel(new GridLayout(1, 2, 5, 5));
         BUTTONS.add(UPDATE);
         BUTTONS.add(DELETE);
         FLOW = new JPanel(new FlowLayout(LEFT));
         FLOW.add(BUTTONS);
     }
-    
+
     public void setRightPane(ValidPanel<Person> right)
     {
         log(Top.class, "setRightPane(ValidPanel<Person>)");
         this.right = right;
-        
-        if(right == null)
+
+        if (right == null)
         {
             SPLIT.setRightComponent(EMPTY);
         }
@@ -102,7 +102,7 @@ public class Top
             SPLIT.setRightComponent(panel);
         }
     }
-    
+
     public ValidPanel<Person> getRightPane()
     {
         log(Top.class, "getRightPane()");

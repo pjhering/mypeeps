@@ -96,9 +96,9 @@ public class Event extends AbstractEntity
     public int compareTo(AbstractEntity o)
     {
         log(Event.class, "compareTo(AbstractEntity)");
-        if(o != null)
+        if (o != null)
         {
-            if(o instanceof Event)
+            if (o instanceof Event)
             {
                 return date.compareTo(((Event) o).date);
             }
@@ -112,25 +112,25 @@ public class Event extends AbstractEntity
             throw new NullPointerException("null AbstractEntity");
         }
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
         log(Event.class, "equals(Object)");
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null)
+        if (obj == null)
         {
             return false;
         }
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
         {
             return false;
         }
         final Event other = (Event) obj;
-        if(!Objects.equals(this.id, other.id))
+        if (!Objects.equals(this.id, other.id))
         {
             return false;
         }

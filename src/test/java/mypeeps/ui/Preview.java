@@ -8,6 +8,7 @@ import static mypeeps.Utils.log;
 
 public class Preview
 {
+
     public static void showInJFrame(JPanel panel)
     {
         log(Preview.class, "showInJFrame(JPanel)");

@@ -79,7 +79,7 @@ public class SelectPeopleDialog
 
         return selected ? LIST.getSelectedValuesList() : null;
     }
-    
+
     private void close(boolean value)
     {
         selected = value;

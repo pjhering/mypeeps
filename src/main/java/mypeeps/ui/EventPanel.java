@@ -25,7 +25,7 @@ public class EventPanel extends ValidPanel<Event>
     private JFormattedTextField dateField;
     private JTextField placeField;
     private JTextArea notesField;
-    
+
     public EventPanel(Event entity)
     {
         super(entity);
@@ -33,7 +33,7 @@ public class EventPanel extends ValidPanel<Event>
         init();
         updateFields();
     }
-    
+
     private void init()
     {
         log(EventPanel.class, "init()");
@@ -47,20 +47,20 @@ public class EventPanel extends ValidPanel<Event>
         fields.add(titleField);
         fields.add(dateField);
         fields.add(placeField);
-        
+
         JPanel labels = new JPanel(new GridLayout(3, 1, 5, 5));
         labels.add(new JLabel("title"));
         labels.add(new JLabel("date"));
         labels.add(new JLabel("place"));
-        
+
         JPanel north = new JPanel(new BorderLayout(5, 5));
         north.add(labels, WEST);
         north.add(fields, CENTER);
-        
+
         notesField = new JTextArea(5, 20);
         JScrollPane scroll = new JScrollPane(notesField);
         scroll.setBorder(createTitledBorder("notes"));
-        
+
         setLayout(new BorderLayout(5, 5));
         add(north, NORTH);
         add(scroll, CENTER);

@@ -11,13 +11,13 @@ public class PreviewValidPanelDialog
     {
         Person person = new Person(0L, "Joe", "Blow", "", "foobar");
         ValidPanelDialog<PersonPanel> dialog = new ValidPanelDialog<>("person", new PersonPanel(person));
-        
+
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
         PersonPanel panel = dialog.open(frame);
-        
-        if(panel != null)
+
+        if (panel != null)
         {
             frame.setContentPane(panel);
             frame.pack();

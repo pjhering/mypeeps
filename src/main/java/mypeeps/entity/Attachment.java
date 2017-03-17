@@ -58,9 +58,9 @@ public class Attachment extends AbstractEntity
     public int compareTo(AbstractEntity o)
     {
         log(Attachment.class, "compareTo(AbstractEntity)");
-        if(o != null)
+        if (o != null)
         {
-            if(o instanceof Attachment)
+            if (o instanceof Attachment)
             {
                 return fileName.compareTo(((Attachment) o).fileName);
             }
@@ -74,25 +74,25 @@ public class Attachment extends AbstractEntity
             throw new NullPointerException("null Atachment");
         }
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
         log(Attachment.class, "equals(Object)");
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null)
+        if (obj == null)
         {
             return false;
         }
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
         {
             return false;
         }
         final Attachment other = (Attachment) obj;
-        if(!Objects.equals(this.id, other.id))
+        if (!Objects.equals(this.id, other.id))
         {
             return false;
         }

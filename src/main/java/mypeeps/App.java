@@ -56,7 +56,7 @@ public class App
         List<Person> all = DB.readPeople();
         Person p = TOP.PEOPLE.getSelectedValue();
         TOP.PEOPLE.setModel(toListModel(all));
-        if(p != null && all.contains(p))
+        if (p != null && all.contains(p))
         {
             TOP.PEOPLE.setSelectedValue(p, true);
         }
@@ -70,12 +70,12 @@ public class App
     {
         log(App.class, "doPeopleListSelectionChanged()");
         Person p = TOP.PEOPLE.getSelectedValue();
-        
-        if(p == null)
+
+        if (p == null)
         {
             return;
         }
-        
+
         TOP.setRightPane(new PersonPanel(p));
     }
 
@@ -94,8 +94,8 @@ public class App
         log(App.class, "doCreatePersonAction()");
         ValidPanelDialog<PersonPanel> dialog = new ValidPanelDialog<>("new person", new PersonPanel(new Person()));
         PersonPanel panel = dialog.open(TOP.FRAME);
-        
-        if(panel != null)
+
+        if (panel != null)
         {
             panel.updateEntity();
             Person p = DB.create(panel.getEntity());

@@ -53,9 +53,9 @@ public class Place extends AbstractEntity
     public int compareTo(AbstractEntity o)
     {
         log(Place.class, "compareTo(AbstractEntity)");
-        if(o == null)
+        if (o == null)
         {
-            if(o instanceof Place)
+            if (o instanceof Place)
             {
                 return name.compareTo(((Place) o).name);
             }
@@ -69,25 +69,25 @@ public class Place extends AbstractEntity
             throw new NullPointerException("null Place");
         }
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
         log(Place.class, "equals(Object)");
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null)
+        if (obj == null)
         {
             return false;
         }
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
         {
             return false;
         }
         final Place other = (Place) obj;
-        if(!Objects.equals(this.id, other.id))
+        if (!Objects.equals(this.id, other.id))
         {
             return false;
         }

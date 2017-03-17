@@ -10,43 +10,44 @@ import mypeeps.entity.AbstractEntity;
 
 abstract public class ValidPanel<E extends AbstractEntity> extends JPanel
 {
+
     private final E entity;
-    
+
     public ValidPanel(E entity)
     {
         log(ValidPanel.class, "ValidPanel(E)");
         this.entity = requireNonNull(entity);
     }
-    
+
     abstract public void updateFields();
-    
+
     abstract public void updateEntity();
-    
+
     abstract public boolean doValidation();
-    
+
     public E getEntity()
     {
         log(ValidPanel.class, "getEntity()");
         return entity;
     }
-    
+
     protected boolean required(String name, JTextComponent jtc)
     {
         log(ValidPanel.class, "required(String, JTextComponent)");
         String s = jtc.getText();
         s = s == null ? "" : s.trim();
         jtc.setText(s);
-        
-        if(s.length() == 0)
+
+        if (s.length() == 0)
         {
             warning(name + " is required");
             jtc.requestFocus();
             return false;
         }
-        
+
         return true;
     }
-    
+
     protected void warning(String text)
     {
         log(ValidPanel.class, "warning(String)");

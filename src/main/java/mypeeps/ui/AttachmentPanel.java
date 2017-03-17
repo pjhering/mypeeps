@@ -67,13 +67,13 @@ public class AttachmentPanel extends ValidPanel<Attachment>
     {
         log(AttachmentPanel.class, "doValidation()");
 
-        if(required("file name", fileNameField))
+        if (required("file name", fileNameField))
         {
             String fname = fileNameField.getText();
-            
+
             File file = new File(fname);
 
-            if(!file.exists())
+            if (!file.exists())
             {
                 warning(fname + " does not exist");
                 fileNameField.requestFocus();

@@ -22,47 +22,46 @@ public class ValidPanelDialog<P extends ValidPanel>
     private final JPanel CONTENT;
     private JDialog dialog;
     private boolean saved;
-    
-    
+
     public ValidPanelDialog(String title, P panel)
     {
         this.TITLE = title == null ? "" : title;
         this.PANEL = requireNonNull(panel);
-        
+
         JButton save = new JButton("save");
         save.addActionListener(a1 -> doSaveAction());
         JButton cancel = new JButton("cancel");
         cancel.addActionListener(a2 -> doCancelAction());
-        
+
         JPanel buttons = new JPanel(new GridLayout(1, 2, 5, 5));
         buttons.add(save);
         buttons.add(cancel);
-        
+
         JPanel south = new JPanel(new FlowLayout());
         south.add(buttons);
-        
+
         CONTENT = new JPanel(new BorderLayout(5, 5));
         CONTENT.setBorder(createEmptyBorder(10, 10, 10, 10));
         CONTENT.add(PANEL, CENTER);
         CONTENT.add(south, SOUTH);
     }
-    
+
     public P open(Frame parent)
     {
         dialog = new JDialog(parent, TITLE, true);
         init();
-        
+
         return saved ? PANEL : null;
     }
-    
+
     public P open(Dialog parent)
     {
         dialog = new JDialog(parent, TITLE, true);
         init();
-        
+
         return saved ? PANEL : null;
     }
-    
+
     private void init()
     {
         dialog.setContentPane(CONTENT);
@@ -74,7 +73,7 @@ public class ValidPanelDialog<P extends ValidPanel>
 
     private void doSaveAction()
     {
-        if(PANEL.doValidation())
+        if (PANEL.doValidation())
         {
             saved = true;
             dialog.setVisible(false);

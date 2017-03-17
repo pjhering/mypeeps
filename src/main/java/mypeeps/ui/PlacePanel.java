@@ -14,7 +14,7 @@ import mypeeps.entity.Place;
 
 public class PlacePanel extends ValidPanel<Place>
 {
-    
+
     public JTextField nameField;
 
     public PlacePanel(Place entity)
@@ -24,7 +24,7 @@ public class PlacePanel extends ValidPanel<Place>
         init();
         updateFields();
     }
-    
+
     private void init()
     {
         log(PlacePanel.class, "init()");
@@ -32,14 +32,14 @@ public class PlacePanel extends ValidPanel<Place>
         selectOnFocus(nameField);
         JPanel fields = new JPanel(new GridLayout(1, 1, 5, 5));
         fields.add(nameField);
-        
+
         JPanel labels = new JPanel(new GridLayout(2, 1, 5, 5));
         labels.add(new JLabel("name"));
-        
+
         JPanel north = new JPanel(new BorderLayout(5, 5));
         north.add(labels, WEST);
         north.add(fields, CENTER);
-        
+
         setLayout(new BorderLayout(5, 5));
         add(north, NORTH);
     }

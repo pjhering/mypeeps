@@ -39,20 +39,20 @@ public abstract class AbstractEntity implements Serializable, Comparable<Abstrac
     public boolean equals(Object obj)
     {
         log(AbstractEntity.class, "equals(Object)");
-        if(this == obj)
+        if (this == obj)
         {
             return true;
         }
-        if(obj == null)
+        if (obj == null)
         {
             return false;
         }
-        if(getClass() != obj.getClass())
+        if (getClass() != obj.getClass())
         {
             return false;
         }
         final AbstractEntity other = (AbstractEntity) obj;
-        if(!Objects.equals(this.id, other.id))
+        if (!Objects.equals(this.id, other.id))
         {
             return false;
         }

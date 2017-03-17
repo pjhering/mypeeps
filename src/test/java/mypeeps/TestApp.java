@@ -19,17 +19,17 @@ public class TestApp
         File root = new File(home, "mypeeps");
         File data = new File(root, "test.obj");
 
-        if(!data.exists())
+        if (!data.exists())
         {
-            if(root.mkdir())
+            if (root.mkdir())
             {
-                if(!data.createNewFile())
+                if (!data.createNewFile())
                 {
                     throw new RuntimeException("failed to start TestApp");
                 }
                 else
                 {
-                    try(FileOutputStream stream = new FileOutputStream(data))
+                    try (FileOutputStream stream = new FileOutputStream(data))
                     {
                         ObjectOutputStream out = new ObjectOutputStream(stream);
                         out.writeLong(1);

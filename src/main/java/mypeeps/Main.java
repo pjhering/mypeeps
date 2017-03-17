@@ -6,13 +6,14 @@ import mypeeps.entity.MemoryDAO;
 
 public class Main
 {
+
     public static void main(String[] args)
     {
         File home = new File(getProperty("user.home"));
         File root = new File(home, "mypeeps");
         File data = new File(root, "data.obj");
         MemoryDAO dao = new MemoryDAO(data);
-        App app = new App(dao);
+        App2 app = new App2(dao);
         app.start();
     }
 }
