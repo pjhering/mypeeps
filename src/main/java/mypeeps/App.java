@@ -13,6 +13,7 @@ import mypeeps.entity.DAO;
 import mypeeps.entity.Person;
 import mypeeps.ui.PersonPanel;
 import mypeeps.ui.Top;
+import mypeeps.ui.ValidPanelDialog;
 
 public class App
 {
@@ -91,5 +92,15 @@ public class App
     private void doCreatePersonAction()
     {
         log(App.class, "doCreatePersonAction()");
+        ValidPanelDialog<PersonPanel> dialog = new ValidPanelDialog<>("new person", new PersonPanel(new Person()));
+        PersonPanel panel = dialog.open(TOP.FRAME);
+        
+        if(panel != null)
+        {
+            panel.updateEntity();
+            Person p = DB.create(panel.getEntity());
+            refreshPeopleList();
+            TOP.PEOPLE.setSelectedValue(p, true);
+        }
     }
 }

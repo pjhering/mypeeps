@@ -3,11 +3,13 @@ package mypeeps.ui;
 import java.awt.BorderLayout;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.NORTH;
+import static java.awt.BorderLayout.SOUTH;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import static java.awt.FlowLayout.LEFT;
 import java.awt.GridLayout;
 import static javax.swing.BorderFactory.createEmptyBorder;
+import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -17,6 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import static javax.swing.JSplitPane.HORIZONTAL_SPLIT;
 import static mypeeps.Utils.log;
+import mypeeps.entity.Attachment;
+import mypeeps.entity.Event;
 import mypeeps.entity.Person;
 
 public class Top
@@ -28,7 +32,10 @@ public class Top
     public final JMenuItem CREATE;
     public final JButton UPDATE, DELETE;
     private final JScrollPane SCROLL;
-    private final JPanel BUTTONS, FLOW;
+    private final JList<Person> PARENTS, CHILDREN;
+    private final JList<Event> EVENTS;
+    private final JList<Attachment> ATTACHMENTS;
+    private final JPanel BUTTONS, FLOW, LISTS;
     private ValidPanel<Person> right;
     private final JPanel EMPTY;
 
@@ -46,6 +53,25 @@ public class Top
         SPLIT.setDividerLocation(0.5);
         FRAME.setContentPane(SPLIT);
         EMPTY = new JPanel();
+        
+        PARENTS = new JList<>();
+        CHILDREN = new JList<>();
+        EVENTS = new JList<>();
+        ATTACHMENTS = new JList<>();
+        
+        JScrollPane scroll0 = new JScrollPane(PARENTS);
+        scroll0.setBorder(createTitledBorder("parents"));
+        JScrollPane scroll1 = new JScrollPane(CHILDREN);
+        scroll1.setBorder(createTitledBorder("children"));
+        JScrollPane scroll2 = new JScrollPane(EVENTS);
+        scroll2.setBorder(createTitledBorder("events"));
+        JScrollPane scroll3 = new JScrollPane(ATTACHMENTS);
+        scroll3.setBorder(createTitledBorder("files"));
+        LISTS = new JPanel(new GridLayout(1, 4, 5, 5));
+        LISTS.add(scroll0);
+        LISTS.add(scroll1);
+        LISTS.add(scroll2);
+        LISTS.add(scroll3);
         
         CREATE = new JMenuItem("create");
         UPDATE = new JButton("update");
@@ -71,7 +97,8 @@ public class Top
         {
             JPanel panel = new JPanel(new BorderLayout(5, 5));
             panel.add(right, NORTH);
-            panel.add(FLOW, CENTER);
+            panel.add(LISTS, CENTER);
+            panel.add(FLOW, SOUTH);
             SPLIT.setRightComponent(panel);
         }
     }

@@ -9,7 +9,6 @@ public class Place extends AbstractEntity
 {
 
     private String name;
-    private String notes;
     private final Set<Attachment> attachments = new TreeSet<>();
 
     public Place()
@@ -23,7 +22,6 @@ public class Place extends AbstractEntity
         super(id);
         log(Attachment.class, "Place(Long, String, String)");
         this.name = name;
-        this.notes = notes;
     }
 
     public String getName()
@@ -36,18 +34,6 @@ public class Place extends AbstractEntity
     {
         log(Place.class, "setName(String)");
         this.name = name;
-    }
-
-    public String getNotes()
-    {
-        log(Place.class, "getNotes()");
-        return notes;
-    }
-
-    public void setNotes(String notes)
-    {
-        log(Place.class, "setNotes(String)");
-        this.notes = notes;
     }
 
     public Set<Attachment> getAttachments()
