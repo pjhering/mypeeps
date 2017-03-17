@@ -1,5 +1,6 @@
 package mypeeps.ui2;
 
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -35,5 +36,13 @@ public class Top
         split.setRightComponent(DETAIL);
         
         FRAME.setContentPane(split);
+    }
+    
+    public void show()
+    {
+        Dimension size = FRAME.getToolkit().getScreenSize();
+        FRAME.setSize(size.width * 95 / 100, size.height * 95 / 100);
+        FRAME.setLocationRelativeTo(null);
+        FRAME.setVisible(true);
     }
 }

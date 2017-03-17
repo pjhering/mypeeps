@@ -6,6 +6,7 @@ import static java.lang.String.format;
 import static java.lang.System.out;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.List;
 import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.DefaultListModel;
@@ -13,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.text.JTextComponent;
+import mypeeps.entity.AbstractEntity;
 import mypeeps.entity.Person;
 import mypeeps.ui.PopupListener;
 
@@ -70,9 +72,9 @@ public class Utils
         });
     }
 
-    public static ListModel toListModel(List<Person> list)
+    public static <E extends AbstractEntity> ListModel<E> toListModel(Collection<E> list)
     {
-                log(Utils.class, "toListModel(List<Person>)");
+                log(Utils.class, "toListModel(List<AbstractEntity>)");
         DefaultListModel model = new DefaultListModel();
         list.forEach(p -> model.addElement(p));
         return model;

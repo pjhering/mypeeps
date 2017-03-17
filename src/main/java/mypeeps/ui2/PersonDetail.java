@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.popup;
 import static mypeeps.Utils.selectOnFocus;
+import static mypeeps.Utils.toListModel;
 import mypeeps.entity.Attachment;
 import mypeeps.entity.Event;
 import mypeeps.entity.Person;
@@ -170,5 +171,13 @@ public class PersonDetail extends JPanel
         log(PersonDetail.class, "setPerson(Person)");
         
         this.person = requireNonNull(person);
+        this.GIVENNAME.setText(person.getGivenName());
+        this.FAMILYNAME.setText(person.getFamilyName());
+        this.GENDER.setSelectedItem(person.getGender());
+        this.NOTES.setText(person.getNotes());
+        this.PARENTS.setModel(toListModel(person.getParents()));
+        this.CHILDREN.setModel(toListModel(person.getChildren()));
+        this.EVENTS.setModel(toListModel(person.getEvents()));
+        this.ATTACHMENTS.setModel(toListModel(person.getAttachments()));
     }
 }
