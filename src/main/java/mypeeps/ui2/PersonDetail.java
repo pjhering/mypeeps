@@ -57,14 +57,12 @@ public class PersonDetail extends JPanel
     public final JList<Event> EVENTS;
     public final JMenuItem ADDEVENT;
     public final JMenuItem EDITEVENT;
-    public final JMenuItem REMOVEEVENT;
     public final JMenuItem DELETEEVENT;
     public final PopupListener EVENTMENU;
 
     public final JList<Attachment> ATTACHMENTS;
     public final JMenuItem ADDATTACHMENT;
     public final JMenuItem EDITATTACHMENT;
-    public final JMenuItem REMOVEATTACHMENT;
     public final JMenuItem DELETEATTACHMENT;
     public final PopupListener ATTACHMENTSMENU;
 
@@ -119,9 +117,8 @@ public class PersonDetail extends JPanel
         eventsScroll.setBorder(createTitledBorder("events"));
         ADDEVENT = new JMenuItem("add");
         EDITEVENT = new JMenuItem("edit");
-        REMOVEEVENT = new JMenuItem("remove");
         DELETEEVENT = new JMenuItem("delete");
-        EVENTMENU = popup("events", ADDEVENT, EDITEVENT, REMOVEEVENT, DELETEEVENT);
+        EVENTMENU = popup("events", ADDEVENT, EDITEVENT, DELETEEVENT);
         EVENTS.addMouseListener(EVENTMENU);
 
         ATTACHMENTS = new JList<>();
@@ -130,9 +127,8 @@ public class PersonDetail extends JPanel
         attachmentsScroll.setBorder(createTitledBorder("files"));
         ADDATTACHMENT = new JMenuItem("add");
         EDITATTACHMENT = new JMenuItem("edit");
-        REMOVEATTACHMENT = new JMenuItem("remove");
         DELETEATTACHMENT = new JMenuItem("delete");
-        ATTACHMENTSMENU = popup("files", ADDATTACHMENT, EDITATTACHMENT, REMOVEATTACHMENT, DELETEATTACHMENT);
+        ATTACHMENTSMENU = popup("files", ADDATTACHMENT, EDITATTACHMENT, DELETEATTACHMENT);
         ATTACHMENTS.addMouseListener(ATTACHMENTSMENU);
 
         JPanel fields = new JPanel(new GridLayout(1, 3, 5, 5));

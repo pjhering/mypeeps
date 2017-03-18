@@ -150,6 +150,10 @@ public class MemoryDAO implements DAO, Serializable
                 {
                     create(a);
                 }
+                else if(!ATTACHMENTS.contains(a))
+                {
+                    ATTACHMENTS.add(a);
+                }
             });
         }
 
@@ -287,6 +291,12 @@ public class MemoryDAO implements DAO, Serializable
         log(MemoryDAO.class, "delete(Person)");
         if (nonNullId(x))
         {
+            PEOPLE.forEach(p ->
+            {
+                p.getChildren().remove(x);
+                p.getParents().remove(x);
+            });
+            
             return PEOPLE.remove(x);
         }
 
@@ -355,59 +365,7 @@ public class MemoryDAO implements DAO, Serializable
         log(MemoryDAO.class, "update(Person)");
         if (nonNullId(x))
         {
-            if (PEOPLE.contains(x))
-            {
-                x.getChildren().forEach(child ->
-                {
-                    if (!x.equals(child))
-                    {
-                        if (child.getId() != null)
-                        {
-                            update(child);
-                        }
-                        else
-                        {
-                            create(child);
-                        }
-                    }
-                });
-                x.getParents().forEach(parent ->
-                {
-                    if (!x.equals(parent))
-                    {
-                        if (parent.getId() != null)
-                        {
-                            update(parent);
-                        }
-                        else
-                        {
-                            create(parent);
-                        }
-                    }
-                });
-                x.getEvents().forEach(event ->
-                {
-                    if (event.getId() != null)
-                    {
-                        update(event);
-                    }
-                    else
-                    {
-                        create(event);
-                    }
-                });
-                x.getAttachments().forEach(file ->
-                {
-                    if (file.getId() != null)
-                    {
-                        update(file);
-                    }
-                    else
-                    {
-                        create(file);
-                    }
-                });
-            }
+            return true;
         }
 
         return false;

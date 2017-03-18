@@ -2,14 +2,14 @@ package mypeeps.entity;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
 import static mypeeps.Utils.log;
 
 public class Place extends AbstractEntity
 {
 
     private String name;
-    private final Set<Attachment> attachments = new TreeSet<>();
+    private final Set<Attachment> attachments = new HashSet<>();
 
     public Place()
     {

@@ -5,6 +5,10 @@ import java.awt.event.WindowEvent;
 import static java.lang.System.exit;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.OK_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.toListModel;
 import mypeeps.entity.DAO;
@@ -44,6 +48,9 @@ public class App2
         TOP.DETAIL.REMOVEPARENT.addActionListener(a5 -> doRemoveParent());
         TOP.DETAIL.ADDCHILD.addActionListener(a6 -> doAddChild());
         TOP.DETAIL.REMOVECHILD.addActionListener(a7 -> doRemoveChild());
+        TOP.DETAIL.ADDEVENT.addActionListener(a8 -> doAddEvent());
+        TOP.DETAIL.EDITEVENT.addActionListener(a9 -> doEditEvent());
+        TOP.DETAIL.DELETEEVENT.addActionListener(a10 -> doDeleteEvent());
     }
 
     public void start()
@@ -53,6 +60,12 @@ public class App2
         TOP.LIST.setModel(toListModel(DB.readPeople()));
         TOP.show();
         TOP.LIST.setSelectedIndex(0);
+    }
+    
+    private boolean confirm(String message)
+    {
+        int option = showConfirmDialog(TOP.FRAME, message, "confirm", OK_CANCEL_OPTION);
+        return option == OK_OPTION;
     }
 
     private void refreshPeopleList(Person p)
@@ -79,7 +92,12 @@ public class App2
 
         if (person != null)
         {
+            TOP.showDetailView();
             TOP.DETAIL.setPerson(person);
+        }
+        else
+        {
+            TOP.showEmptyView();
         }
     }
 
@@ -100,11 +118,14 @@ public class App2
         log(App2.class, "doDeletePerson()");
 
         Person p = TOP.LIST.getSelectedValue();
-
-        if (p != null)
+        
+        if(confirm("Are you sure you want to delete " + p + "?"))
         {
-            DB.delete(p);
-            refreshPeopleList(null);
+            if (p != null)
+            {
+                DB.delete(p);
+                refreshPeopleList(null);
+            }
         }
     }
 
@@ -176,6 +197,33 @@ public class App2
 
     private void doAddChild()
     {
+        Person parent = TOP.LIST.getSelectedValue();
+
+        if (parent != null)
+        {
+            List<Person> all = DB.readPeople();
+            all.remove(parent);
+            all.removeAll(parent.getParents());
+            all.removeAll(parent.getChildren());
+
+            SelectPeopleDialog dialog = new SelectPeopleDialog("select children", all);
+            List<Person> selected = dialog.open(TOP.FRAME);
+
+            if (selected != null)
+            {
+                selected.forEach(child ->
+                {
+                    parent.getChildren().add(child);
+                    child.getParents().add(parent);
+
+                    DB.update(parent);
+                    DB.update(child);
+
+                    TOP.DETAIL.CHILDREN.setModel(toListModel(parent.getChildren()));
+                    TOP.DETAIL.CHILDREN.repaint();
+                });
+            }
+        }
     }
 
     private void doRemoveChild()
@@ -197,5 +245,17 @@ public class App2
                 TOP.DETAIL.CHILDREN.setModel(toListModel(parent.getParents()));
             }
         }
+    }
+
+    private void doAddEvent()
+    {
+    }
+
+    private void doEditEvent()
+    {
+    }
+
+    private void doDeleteEvent()
+    {
     }
 }

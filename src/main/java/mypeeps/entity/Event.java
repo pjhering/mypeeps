@@ -3,7 +3,7 @@ package mypeeps.entity;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
 import static mypeeps.Utils.FMT;
 import static mypeeps.Utils.log;
 
@@ -14,7 +14,7 @@ public class Event extends AbstractEntity
     private Date date;
     private Place place;
     private String notes;
-    private final Set<Attachment> attachments = new TreeSet<>();
+    private final Set<Attachment> attachments = new HashSet<>();
 
     public Event()
     {
