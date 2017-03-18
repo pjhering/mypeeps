@@ -1,8 +1,8 @@
 package mypeeps.entity;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 import static mypeeps.Utils.log;
 
 public class Person extends AbstractEntity
@@ -12,10 +12,10 @@ public class Person extends AbstractEntity
     private String familyName;
     private String gender;
     private String notes;
-    private final Set<Person> parents = new TreeSet<>();
-    private final Set<Person> children = new TreeSet<>();
-    private final Set<Event> events = new TreeSet<>();
-    private final Set<Attachment> attachments = new TreeSet<>();
+    private final Set<Person> parents = new HashSet<>();
+    private final Set<Person> children = new HashSet<>();
+    private final Set<Event> events = new HashSet<>();
+    private final Set<Attachment> attachments = new HashSet<>();
 
     public Person()
     {
@@ -31,6 +31,51 @@ public class Person extends AbstractEntity
         this.familyName = fname;
         this.gender = gender;
         this.notes = notes;
+    }
+
+    public boolean isDescendantOf(Person other)
+    {
+        log(Person.class, "isDescendantOf(Person)");
+        
+        if(parents.contains(other))
+        {
+            return true;
+        }
+        else
+        {
+            for(Person p : parents)
+            {
+                if(p.isDescendantOf(other))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    public boolean isAncestorOf(Person other)
+    {
+        log(Person.class, "isAncestorOf(Person)");
+        
+
+        if(children.contains(other))
+        {
+            return true;
+        }
+        else
+        {
+            for(Person p : children)
+            {
+                if(p.isAncestorOf(other))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     public String getGivenName()
@@ -109,20 +154,20 @@ public class Person extends AbstractEntity
     public boolean equals(Object obj)
     {
         log(Person.class, "equals(Object)");
-        if (this == obj)
+        if(this == obj)
         {
             return true;
         }
-        if (obj == null)
+        if(obj == null)
         {
             return false;
         }
-        if (getClass() != obj.getClass())
+        if(getClass() != obj.getClass())
         {
             return false;
         }
         final Person other = (Person) obj;
-        if (!Objects.equals(this.id, other.id))
+        if(!Objects.equals(this.id, other.id))
         {
             return false;
         }
@@ -149,14 +194,14 @@ public class Person extends AbstractEntity
     public int compareTo(AbstractEntity o)
     {
         log(Person.class, "compareTo(AbstractEntity)");
-        if (o != null)
+        if(o != null)
         {
-            if (o instanceof Person)
+            if(o instanceof Person)
             {
                 Person p = (Person) o;
                 int value = this.familyName.compareTo(p.familyName);
 
-                if (value == 0)
+                if(value == 0)
                 {
                     return this.givenName.compareTo(p.givenName);
                 }

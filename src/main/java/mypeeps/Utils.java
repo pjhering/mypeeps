@@ -33,7 +33,7 @@ public class Utils
     {
         JPanel panel = new JPanel(new GridLayout(1, buttons.length, 5, 5));
 
-        for (JButton button : buttons)
+        for(JButton button : buttons)
         {
             panel.add(button);
         }
@@ -48,7 +48,7 @@ public class Utils
     {
         JPanel panel = new JPanel(new GridLayout(fields.length, 1, 5, 5));
 
-        for (JComponent field : fields)
+        for(JComponent field : fields)
         {
             panel.add(field);
         }
@@ -60,7 +60,7 @@ public class Utils
     {
         JPanel panel = new JPanel(new GridLayout(titles.length, 1, 5, 5));
 
-        for (String title : titles)
+        for(String title : titles)
         {
             panel.add(new JLabel(title));
         }
@@ -74,7 +74,7 @@ public class Utils
         s = s == null ? "" : s.trim();
         jtc.setText(s);
 
-        if (s.length() == 0)
+        if(s.length() == 0)
         {
             showMessageDialog(jtc, name + " is required", "warning", WARNING_MESSAGE);
             jtc.requestFocus();
@@ -88,14 +88,14 @@ public class Utils
     {
         JPopupMenu menu = new JPopupMenu();
 
-        if (title != null)
+        if(title != null)
         {
             menu.setBorder(createTitledBorder(title));
         }
 
-        for (JMenuItem item : items)
+        for(JMenuItem item : items)
         {
-            if (item == null)
+            if(item == null)
             {
                 menu.addSeparator();
             }
@@ -141,11 +141,16 @@ public class Utils
         return model;
     }
 
+    public static boolean DEBUG = true;
+
     public static void log(Class c, Object o)
     {
-        out.print(format("%-40s", c.getName(), o).replace(' ', '.'));
-        out.println(o);
-        out.flush();
+        if(DEBUG)
+        {
+            out.print(format("%-40s", c.getName(), o).replace(' ', '.'));
+            out.println(o);
+            out.flush();
+        }
     }
 
     private Utils()
