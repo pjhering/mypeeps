@@ -20,7 +20,7 @@ import static mypeeps.Utils.labels;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.required;
 import static mypeeps.Utils.selectOnFocus;
-import mypeeps.entity.Person;
+import mypeeps.entity2.Person;
 
 /**
  * Used to create or edit a Person

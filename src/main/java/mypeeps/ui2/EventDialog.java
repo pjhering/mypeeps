@@ -3,7 +3,7 @@ package mypeeps.ui2;
 import java.awt.Dialog;
 import java.awt.Frame;
 import static java.util.Objects.requireNonNull;
-import mypeeps.entity.Event;
+import mypeeps.entity2.Event;
 
 /**
  * Used to create or edit an event.

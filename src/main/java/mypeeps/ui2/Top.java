@@ -11,8 +11,8 @@ import javax.swing.JSplitPane;
 import static javax.swing.JSplitPane.HORIZONTAL_SPLIT;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.popup;
-import mypeeps.entity.Person;
-import mypeeps.ui.PopupListener;
+import mypeeps.entity2.Person;
+import mypeeps.ui2.PopupListener;
 
 /**
  * The main user interface. Displays a list of people on the left and details on

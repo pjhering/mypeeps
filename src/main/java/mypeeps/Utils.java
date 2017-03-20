@@ -21,8 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.text.JTextComponent;
-import mypeeps.entity.AbstractEntity;
-import mypeeps.ui.PopupListener;
+import mypeeps.ui2.PopupListener;
 
 public class Utils
 {
@@ -133,7 +132,7 @@ public class Utils
         });
     }
 
-    public static <E extends AbstractEntity> ListModel<E> toListModel(Collection<E> list)
+    public static <E> ListModel<E> toListModel(Collection<E> list)
     {
         log(Utils.class, "toListModel(Collection<E>)");
         DefaultListModel model = new DefaultListModel();

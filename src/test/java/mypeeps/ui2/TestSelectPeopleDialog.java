@@ -7,7 +7,7 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import static mypeeps.Utils.toListModel;
-import mypeeps.entity.Person;
+import mypeeps.entity2.Person;
 
 public class TestSelectPeopleDialog
 {

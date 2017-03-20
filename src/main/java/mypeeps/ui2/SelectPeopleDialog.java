@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import static mypeeps.Utils.toListModel;
-import mypeeps.entity.Person;
+import mypeeps.entity2.Person;
 
 /**
  * Used to select one or more people (children or parents)

@@ -24,10 +24,9 @@ import static mypeeps.Utils.popup;
 import static mypeeps.Utils.required;
 import static mypeeps.Utils.selectOnFocus;
 import static mypeeps.Utils.toListModel;
-import mypeeps.entity.Attachment;
-import mypeeps.entity.Event;
-import mypeeps.entity.Person;
-import mypeeps.ui.PopupListener;
+import mypeeps.entity2.File;
+import mypeeps.entity2.Event;
+import mypeeps.entity2.Person;
 
 /**
  * Used to display a Person in the Top frame
@@ -60,11 +59,11 @@ public class PersonDetail extends JPanel
     public final JMenuItem DELETEEVENT;
     public final PopupListener EVENTMENU;
 
-    public final JList<Attachment> ATTACHMENTS;
-    public final JMenuItem ADDATTACHMENT;
-    public final JMenuItem EDITATTACHMENT;
-    public final JMenuItem DELETEATTACHMENT;
-    public final PopupListener ATTACHMENTSMENU;
+    public final JList<File> FILES;
+    public final JMenuItem ADDFILE;
+    public final JMenuItem EDITFILE;
+    public final JMenuItem DELETEFILE;
+    public final PopupListener FILESMENU;
 
     private Person person;
 
@@ -121,15 +120,15 @@ public class PersonDetail extends JPanel
         EVENTMENU = popup("events", ADDEVENT, EDITEVENT, DELETEEVENT);
         EVENTS.addMouseListener(EVENTMENU);
 
-        ATTACHMENTS = new JList<>();
-        ATTACHMENTS.setSelectionMode(SINGLE_SELECTION);
-        JScrollPane attachmentsScroll = new JScrollPane(ATTACHMENTS);
+        FILES = new JList<>();
+        FILES.setSelectionMode(SINGLE_SELECTION);
+        JScrollPane attachmentsScroll = new JScrollPane(FILES);
         attachmentsScroll.setBorder(createTitledBorder("files"));
-        ADDATTACHMENT = new JMenuItem("add");
-        EDITATTACHMENT = new JMenuItem("edit");
-        DELETEATTACHMENT = new JMenuItem("delete");
-        ATTACHMENTSMENU = popup("files", ADDATTACHMENT, EDITATTACHMENT, DELETEATTACHMENT);
-        ATTACHMENTS.addMouseListener(ATTACHMENTSMENU);
+        ADDFILE = new JMenuItem("add");
+        EDITFILE = new JMenuItem("edit");
+        DELETEFILE = new JMenuItem("delete");
+        FILESMENU = popup("files", ADDFILE, EDITFILE, DELETEFILE);
+        FILES.addMouseListener(FILESMENU);
 
         JPanel fields = new JPanel(new GridLayout(1, 3, 5, 5));
         fields.add(GIVENNAME);
@@ -174,7 +173,6 @@ public class PersonDetail extends JPanel
         person.setGivenName(GIVENNAME.getText());
         person.setFamilyName(FAMILYNAME.getText());
         person.setGender((String) GENDER.getSelectedItem());
-        //TODO: update parents, children, events, attachments
     }
 
     public Person getPerson()
@@ -193,9 +191,5 @@ public class PersonDetail extends JPanel
         this.FAMILYNAME.setText(person.getFamilyName());
         this.GENDER.setSelectedItem(person.getGender());
         this.NOTES.setText(person.getNotes());
-        this.PARENTS.setModel(toListModel(person.getParents()));
-        this.CHILDREN.setModel(toListModel(person.getChildren()));
-        this.EVENTS.setModel(toListModel(person.getEvents()));
-        this.ATTACHMENTS.setModel(toListModel(person.getAttachments()));
     }
 }
