@@ -5,7 +5,6 @@ import java.awt.event.WindowEvent;
 import static java.lang.System.exit;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
-import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
