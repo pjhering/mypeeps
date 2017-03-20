@@ -47,8 +47,10 @@ public class JdbcDAO implements DAO
         for (String key : props.stringPropertyNames())
         {
             out.println(key);
-            out.println(STMTS.get(key));
-            out.println(null != STMTS.put(key, JDBC.prepareStatement(props.getProperty(key))));
+            PreparedStatement stmt = JDBC.prepareStatement(props.getProperty(key));
+            out.println(stmt);
+            
+            STMTS.put(key, stmt);
         }
     }
 
@@ -59,8 +61,7 @@ public class JdbcDAO implements DAO
             try (Statement s = JDBC.createStatement())
             {
                 out.println(sql);
-                boolean result = s.execute(sql);
-                out.println(result);
+                s.executeUpdate(sql);
             }
             catch (SQLException ex)
             {
@@ -102,7 +103,7 @@ public class JdbcDAO implements DAO
 
     private PreparedStatement prepare(String key) throws SQLException
     {
-        PreparedStatement ps = STMTS.get("person.create");
+        PreparedStatement ps = STMTS.get(key);
         ps.clearParameters();
         return ps;
     }

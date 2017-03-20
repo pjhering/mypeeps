@@ -1,7 +1,6 @@
 package mypeeps.entity2;
 
 import java.util.Objects;
-import java.util.Set;
 
 public class Person implements Comparable<Person>
 {
@@ -11,10 +10,6 @@ public class Person implements Comparable<Person>
     private String familyName;
     private String gender;
     private String notes;
-    private Set<Person> parents;
-    private Set<Person> children;
-    private Set<Event> events;
-    private Set<File> files;
     
     public Person(Long id, String givenName, String familyName, String gender, String notes)
     {
@@ -73,46 +68,6 @@ public class Person implements Comparable<Person>
     public void setNotes(String notes)
     {
         this.notes = notes;
-    }
-
-    public Set<Person> getParents()
-    {
-        return parents;
-    }
-
-    public void setParents(Set<Person> parents)
-    {
-        this.parents = parents;
-    }
-
-    public Set<Person> getChildren()
-    {
-        return children;
-    }
-
-    public void setChildren(Set<Person> children)
-    {
-        this.children = children;
-    }
-
-    public Set<Event> getEvents()
-    {
-        return events;
-    }
-
-    public void setEvents(Set<Event> events)
-    {
-        this.events = events;
-    }
-
-    public Set<File> getFiles()
-    {
-        return files;
-    }
-
-    public void setFiles(Set<File> files)
-    {
-        this.files = files;
     }
 
     @Override

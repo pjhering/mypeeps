@@ -2,7 +2,6 @@ package mypeeps.entity2;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 import static mypeeps.Utils.FMT;
 
 public class Event implements Comparable<Event>
@@ -14,7 +13,6 @@ public class Event implements Comparable<Event>
     private Date date;
     private String place;
     private String notes;
-    private Set<File> files;
     
     public Event(Long id, Person person, String title, Date date, String place, String notes)
     {
@@ -84,16 +82,6 @@ public class Event implements Comparable<Event>
     public void setNotes(String notes)
     {
         this.notes = notes;
-    }
-
-    public Set<File> getFiles()
-    {
-        return files;
-    }
-
-    public void setFiles(Set<File> files)
-    {
-        this.files = files;
     }
     
     @Override

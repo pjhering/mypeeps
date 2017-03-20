@@ -23,7 +23,7 @@ create table if not exists event
     id          bigint not null generated always as identity,
     person_id   bigint not null,
     title       varchar(200) not null,
-    date        occurred not null,
+    occurred    date not null,
     place       varchar(200) not null,
     notes       varchar(2000),
     foreign key (person_id) references person (id) on delete cascade
