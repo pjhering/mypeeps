@@ -172,6 +172,7 @@ public class PersonDetail extends JPanel
         person.setGivenName(GIVENNAME.getText());
         person.setFamilyName(FAMILYNAME.getText());
         person.setGender((String) GENDER.getSelectedItem());
+        person.setNotes(NOTES.getText());
     }
 
     public Person getPerson()

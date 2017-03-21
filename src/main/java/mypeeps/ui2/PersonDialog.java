@@ -8,6 +8,7 @@ import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import static java.util.Objects.requireNonNull;
+import static javax.swing.BorderFactory.createEmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -64,6 +65,7 @@ public class PersonDialog
         CANCEL.addActionListener(a1 -> doCancel());
 
         CONTENT = new JPanel(new BorderLayout(5, 5));
+        CONTENT.setBorder(createEmptyBorder(10,10,10,10));
         CONTENT.add(north, NORTH);
         CONTENT.add(buttons(FlowLayout.CENTER, SAVE, CANCEL), CENTER);
     }

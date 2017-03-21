@@ -9,19 +9,22 @@ public class Main
 
     public static void main(String[] args)
     {
-        Login login = Login.open();
-        
-        if(login == null)
-        {
-            return;
-        }
+//        Login login = Login.open();
+//        
+//        if(login == null)
+//        {
+//            return;
+//        }
         
         String driver = "org.h2.Driver";
         String url = "jdbc:h2:~/mypeeps/h2";
+        String username = "mypeeps";
+        String password = "mypeeps";
         
         try
         {
-            JdbcDAO dao = new JdbcDAO(driver, url, login.USERNAME, login.PASSWORD);
+//            JdbcDAO dao = new JdbcDAO(driver, url, login.USERNAME, login.PASSWORD);
+            JdbcDAO dao = new JdbcDAO(driver, url, username, password);
             dao.executeScript(dao.loadScript("/create-h2.ddl"));
             dao.loadStatements("/statements.properties");
             

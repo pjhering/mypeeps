@@ -8,7 +8,10 @@ import static java.lang.String.format;
 import static java.lang.System.out;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -132,11 +135,15 @@ public class Utils
         });
     }
 
-    public static <E> ListModel<E> toListModel(Collection<E> list)
+    public static <E extends Comparable> ListModel<E> toListModel(Collection<E> collection)
     {
         log(Utils.class, "toListModel(Collection<E>)");
         DefaultListModel model = new DefaultListModel();
-        list.forEach(p -> model.addElement(p));
+        
+        List<E> sorted = new ArrayList<>(collection);
+        Collections.sort(sorted);
+        
+        sorted.forEach(p -> model.addElement(p));
         return model;
     }
 

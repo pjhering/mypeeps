@@ -44,6 +44,7 @@ public class Top
         FRAME = new JFrame("myPeeps v1.0");
 
         SPLIT = new JSplitPane(HORIZONTAL_SPLIT);
+        SPLIT.setResizeWeight(0.25);
         SPLIT.setBorder(createEmptyBorder(10,10,10,10));
         SPLIT.setLeftComponent(listScroll);
         SPLIT.setRightComponent(DETAIL);
