@@ -1,6 +1,5 @@
 package mypeeps;
 
-import static java.lang.System.out;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import mypeeps.entity2.JdbcDAO;

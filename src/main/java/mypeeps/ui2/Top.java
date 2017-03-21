@@ -12,7 +12,6 @@ import static javax.swing.JSplitPane.HORIZONTAL_SPLIT;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.popup;
 import mypeeps.entity2.Person;
-import mypeeps.ui2.PopupListener;
 
 /**
  * The main user interface. Displays a list of people on the left and details on
@@ -56,16 +55,19 @@ public class Top
     
     public void showDetailView()
     {
+        log(Top.class, "showDetailView()");
         SPLIT.setRightComponent(DETAIL);
     }
     
     public void showEmptyView()
     {
+        log(Top.class, "showEmptyView()");
         SPLIT.setRightComponent(EMPTY);
     }
 
     public void show()
     {
+        log(Top.class, "show()");
         Dimension size = FRAME.getToolkit().getScreenSize();
         FRAME.setSize(size.width * 95 / 100, size.height * 90 / 100);
         FRAME.setLocationRelativeTo(null);

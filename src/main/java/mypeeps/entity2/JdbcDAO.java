@@ -3,7 +3,6 @@ package mypeeps.entity2;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import static java.lang.System.out;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import static mypeeps.Utils.log;
 
 public class JdbcDAO implements DAO
 {
@@ -29,6 +29,8 @@ public class JdbcDAO implements DAO
 
     public JdbcDAO(String driverClassName, String dbUrl, String user, String pass) throws Exception
     {
+        log(JdbcDAO.class, "JdbcDAO(String, String, String, String)");
+        
         Class driverClass = Class.forName(driverClassName);
         Driver driver = (Driver) driverClass.newInstance();
         DriverManager.registerDriver(driver);
@@ -40,38 +42,40 @@ public class JdbcDAO implements DAO
     
     public void loadStatements(String statements) throws IOException, SQLException
     {
+        log(JdbcDAO.class, "loadStatements(String)");
+        
         URL url = getClass().getResource(statements);
         Properties props = new Properties();
         props.load(url.openStream());
         
         for (String key : props.stringPropertyNames())
         {
-            out.println(key);
             PreparedStatement stmt = JDBC.prepareStatement(props.getProperty(key));
-            out.println(stmt);
-            
             STMTS.put(key, stmt);
         }
     }
 
     public void executeScript(List<String> statements)
     {
+        log(JdbcDAO.class, "executeScript(List<String>)");
+        
         for (String sql : statements)
         {
             try (Statement s = JDBC.createStatement())
             {
-                out.println(sql);
                 s.executeUpdate(sql);
             }
             catch (SQLException ex)
             {
-                ex.printStackTrace(out);
+                ex.printStackTrace();
             }
         }
     }
 
     public List<String> loadScript(String path)
     {
+        log(JdbcDAO.class, "loadScript(String)");
+        
         URL url = getClass().getResource(path);
         List<String> list = new ArrayList<>();
         
@@ -103,6 +107,8 @@ public class JdbcDAO implements DAO
 
     private PreparedStatement prepare(String key) throws SQLException
     {
+        log(JdbcDAO.class, "prepare(String)");
+        
         PreparedStatement ps = STMTS.get(key);
         ps.clearParameters();
         return ps;
@@ -110,6 +116,8 @@ public class JdbcDAO implements DAO
     
     private Person person(ResultSet rs) throws SQLException
     {
+        log(JdbcDAO.class, "person(ResultSet)");
+        
         long id = rs.getLong("id");
         String gname = rs.getString("givenname");
         String fname = rs.getString("familyname");
@@ -121,6 +129,8 @@ public class JdbcDAO implements DAO
     
     private Set<Person> people(PreparedStatement ps) throws SQLException
     {
+        log(JdbcDAO.class, "people(PreparedStatement)");
+        
         try(ResultSet rs = ps.executeQuery())
         {
             Set<Person> set = new HashSet<>();
@@ -136,6 +146,8 @@ public class JdbcDAO implements DAO
     
     private Event event(Person person, ResultSet rs) throws SQLException
     {
+        log(JdbcDAO.class, "event(Person, ResultSet)");
+        
         long id = rs.getLong("id");
         String title = rs.getString("title");
         Date date = rs.getDate("occurred");
@@ -147,6 +159,8 @@ public class JdbcDAO implements DAO
     
     private Set<Event> events(Person person, PreparedStatement ps) throws SQLException
     {
+        log(JdbcDAO.class, "events(Person, PreparedStatement)");
+        
         try(ResultSet rs = ps.executeQuery())
         {
             Set<Event> set = new HashSet<>();
@@ -162,6 +176,8 @@ public class JdbcDAO implements DAO
     
     private File file(ResultSet rs) throws SQLException
     {
+        log(JdbcDAO.class, "file(ResultSet)");
+        
         long id = rs.getLong("id");
         String path = rs.getString("path");
         String descr = rs.getString("description");
@@ -171,6 +187,8 @@ public class JdbcDAO implements DAO
     
     private Set<File> files(PreparedStatement ps) throws SQLException
     {
+        log(JdbcDAO.class, "files(PreparedStatement)");
+        
         try(ResultSet rs = ps.executeQuery())
         {
             Set<File> set = new HashSet<>();
@@ -186,6 +204,8 @@ public class JdbcDAO implements DAO
     
     private long id(PreparedStatement ps) throws SQLException
     {
+        log(JdbcDAO.class, "id(PreparedStatement)");
+        
         try(ResultSet rs = ps.getGeneratedKeys())
         {
             rs.next();
@@ -197,6 +217,8 @@ public class JdbcDAO implements DAO
     @Override
     public void shutdown() throws DAOException
     {
+        log(JdbcDAO.class, "shutdown()");
+        
         try
         {
             JDBC.close();
@@ -210,6 +232,8 @@ public class JdbcDAO implements DAO
     @Override
     public Person createPerson(String gname, String fname, String gender, String notes) throws DAOException
     {
+        log(JdbcDAO.class, "createPerson(String, String, String, String)");
+        
         try
         {
             PreparedStatement ps = prepare("createPerson");
@@ -239,6 +263,8 @@ public class JdbcDAO implements DAO
     @Override
     public Event createEvent(Person person, String title, Date date, String place, String notes) throws DAOException
     {
+        log(JdbcDAO.class, "createEvent(Person, String, Date, String, String)");
+        
         try
         {
             PreparedStatement ps = prepare("createEvent");
@@ -269,6 +295,8 @@ public class JdbcDAO implements DAO
     @Override
     public File createFile(String path, String description) throws DAOException
     {
+        log(JdbcDAO.class, "createFile(String, String)");
+        
         try
         {
             PreparedStatement ps = prepare("createFile");
@@ -296,6 +324,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean addChildTo(Person parent, Person child) throws DAOException
     {
+        log(JdbcDAO.class, "addChildTo(Person, Person)");
+        
         try
         {
             PreparedStatement ps = prepare("addChildTo");
@@ -314,6 +344,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean addFileToPerson(File file, Person person) throws DAOException
     {
+        log(JdbcDAO.class, "addFileToPerson(File, Person)");
+        
         try
         {
             PreparedStatement ps = prepare("addFileToPerson");
@@ -332,6 +364,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean addFileToEvent(File file, Event event) throws DAOException
     {
+        log(JdbcDAO.class, "addFileToEvent(File, Event)");
+        
         try
         {
             PreparedStatement ps = prepare("addFileToEvent");
@@ -350,6 +384,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<Person> findAllPeople() throws DAOException
     {
+        log(JdbcDAO.class, "findAllPeople()");
+        
         try
         {
             PreparedStatement ps = prepare("findAllPeople");
@@ -364,6 +400,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<Person> findChildrenOf(Person person) throws DAOException
     {
+        log(JdbcDAO.class, "findChildrenOf(Person)");
+        
         try
         {
             PreparedStatement ps = prepare("findChildrenOf");
@@ -379,6 +417,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<Person> findParentsOf(Person person) throws DAOException
     {
+        log(JdbcDAO.class, "findParentsOf(Person)");
+        
         try
         {
             PreparedStatement ps = prepare("findParentsOf");
@@ -394,6 +434,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<Event> findEventsFor(Person person) throws DAOException
     {
+        log(JdbcDAO.class, "findEventsFor(Person)");
+        
         try
         {
             PreparedStatement ps = prepare("findEventsFor");
@@ -409,6 +451,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<File> findAllFiles() throws DAOException
     {
+        log(JdbcDAO.class, "findAllFiles()");
+        
         try
         {
             PreparedStatement ps = prepare("findAllFiles");
@@ -423,6 +467,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<File> findFilesForPerson(Person person) throws DAOException
     {
+        log(JdbcDAO.class, "findFilesForPerson(Person)");
+        
         try
         {
             PreparedStatement ps = prepare("findFilesForPerson");
@@ -438,6 +484,8 @@ public class JdbcDAO implements DAO
     @Override
     public Set<File> findFilesForEvent(Event event) throws DAOException
     {
+        log(JdbcDAO.class, "findFilesForEvent(Event)");
+        
         try
         {
             PreparedStatement ps = prepare("findFilesForEvent");
@@ -453,6 +501,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean updatePerson(Person person) throws DAOException
     {
+        log(JdbcDAO.class, "updatePerson(Person)");
+        
         try
         {
             PreparedStatement ps = prepare("updatePerson");
@@ -474,6 +524,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean updateEvent(Event event) throws DAOException
     {
+        log(JdbcDAO.class, "updateEvent(Event)");
+        
         try
         {
             PreparedStatement ps = prepare("updateEvent");
@@ -495,6 +547,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean updateFile(File file) throws DAOException
     {
+        log(JdbcDAO.class, "updateFile(File)");
+        
         try
         {
             PreparedStatement ps = prepare("updateFile");
@@ -514,6 +568,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean removeChildFrom(Person parent, Person child) throws DAOException
     {
+        log(JdbcDAO.class, "removeChildFrom(Person, Person)");
+        
         try
         {
             PreparedStatement ps = prepare("removeChildFrom");
@@ -532,6 +588,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean removeFileFromPerson(File file, Person person) throws DAOException
     {
+        log(JdbcDAO.class, "removeFileFromPerson(File, Person)");
+        
         try
         {
             PreparedStatement ps = prepare("removeFileFromPerson");
@@ -550,6 +608,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean removeFileFromEvent(File file, Event event) throws DAOException
     {
+        log(JdbcDAO.class, "removeFileFromEvent(File, Event)");
+        
         try
         {
             PreparedStatement ps = prepare("removeFileFromEvent");
@@ -568,6 +628,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean deletePerson(Person person) throws DAOException
     {
+        log(JdbcDAO.class, "deletePerson(Person)");
+        
         try
         {
             PreparedStatement ps = prepare("deletePerson");
@@ -585,6 +647,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean deleteEvent(Event event) throws DAOException
     {
+        log(JdbcDAO.class, "deleteEvent(Event)");
+        
         try
         {
             PreparedStatement ps = prepare("deleteEvent");
@@ -602,6 +666,8 @@ public class JdbcDAO implements DAO
     @Override
     public boolean deleteFile(File file) throws DAOException
     {
+        log(JdbcDAO.class, "deleteFile(File)");
+        
         try
         {
             PreparedStatement ps = prepare("deleteFile");

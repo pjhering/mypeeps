@@ -23,7 +23,6 @@ import static mypeeps.Utils.log;
 import static mypeeps.Utils.popup;
 import static mypeeps.Utils.required;
 import static mypeeps.Utils.selectOnFocus;
-import static mypeeps.Utils.toListModel;
 import mypeeps.entity2.File;
 import mypeeps.entity2.Event;
 import mypeeps.entity2.Person;

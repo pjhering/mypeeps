@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import static mypeeps.Utils.log;
 
 class Login
 {
@@ -30,12 +31,16 @@ class Login
     
     private Login(String user, String pass)
     {
+        log(Login.class, "Login(String, String)");
+        
         this.USERNAME = user;
         this.PASSWORD = pass;
     }
     
     public static Login open()
     {
+        log(Login.class, "open()");
+        
         user = new JTextField(20);
         pass = new JPasswordField(); 
         
@@ -82,18 +87,24 @@ class Login
 
     private static void doLogin()
     {
+        log(Login.class, "doLogin()");
+        
         saved = true;
         close();
     }
 
     private static void doCancel()
     {
+        log(Login.class, "doCancel()");
+        
         saved = false;
         close();
     }
     
     private static void close()
     {
+        log(Login.class, "close()");
+        
         dialog.setVisible(false);
         dialog.dispose();
         FRAME.dispose();

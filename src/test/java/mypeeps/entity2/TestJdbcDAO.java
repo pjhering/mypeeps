@@ -17,7 +17,7 @@ public class TestJdbcDAO
     {
         try
         {
-            JdbcDAO dao = new JdbcDAO("org.h2.Driver", "jdbc:h2:~/mypeeps/h2", "mypeeps", "mypeeps");
+            JdbcDAO dao = new JdbcDAO("org.h2.Driver", "jdbc:h2:~/mypeeps/test", "testing", "testing");
             dao.executeScript(dao.loadScript("/drop-h2.ddl"));
             dao.executeScript(dao.loadScript("/create-h2.ddl"));
             dao.loadStatements("/statements.properties");
