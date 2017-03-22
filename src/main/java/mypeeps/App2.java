@@ -61,6 +61,9 @@ public class App2
         TOP.DETAIL.REMOVEPARENT.addActionListener(a5 -> doRemoveParent());
         TOP.DETAIL.ADDCHILD.addActionListener(a6 -> doAddChid());
         TOP.DETAIL.REMOVECHILD.addActionListener(a7 -> doRemoveChild());
+        TOP.DETAIL.ADDEVENT.addActionListener(a8 -> doAddEvent());
+        TOP.DETAIL.EDITEVENT.addActionListener(a9 -> doEditEvent());
+        TOP.DETAIL.DELETEEVENT.addActionListener(aa -> doDeleteEvent());
     }
 
     public void start()
@@ -371,5 +374,23 @@ public class App2
                 refreshPeopleList(p);
             }
         }
+    }
+
+    private void doAddEvent()
+    {
+        Person p = TOP.DETAIL.getPerson();
+        
+        if(p != null)
+        {
+            
+        }
+    }
+
+    private void doEditEvent()
+    {
+    }
+
+    private void doDeleteEvent()
+    {
     }
 }
