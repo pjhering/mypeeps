@@ -138,6 +138,6 @@ public class Event implements Comparable<Event>
     @Override
     public String toString()
     {
-        return "(" + FMT.format(date) + " " + place + ") " + title;
+        return title + " (" + FMT.format(date) + " " + place + ")";
     }
 }

@@ -86,6 +86,7 @@ public class File implements Comparable<File>
     @Override
     public String toString()
     {
-        return path;
+        java.io.File temp = new java.io.File(path);
+        return temp.getName();
     }
 }

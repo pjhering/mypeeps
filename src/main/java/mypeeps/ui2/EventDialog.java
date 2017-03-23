@@ -117,8 +117,11 @@ public class EventDialog
         CONTENT.add(center, CENTER);
         CONTENT.add(south, SOUTH);
         
+        boolean enabled = EVENT.getId() != null;
         ADDFILES = new JMenuItem("add");
+        ADDFILES.setEnabled(enabled);
         REMOVEFILES = new JMenuItem("remove");
+        REMOVEFILES.setEnabled(enabled);
         FILESMENU = popup("files", ADDFILES, REMOVEFILES);
         FILES.addMouseListener(FILESMENU);
         
