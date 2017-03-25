@@ -9,6 +9,7 @@ import mypeeps.entity2.Person;
 
 public class TestEventDialog
 {
+
     public static void main(String[] args)
     {
         JFrame f = new JFrame();
@@ -17,11 +18,11 @@ public class TestEventDialog
 
         Person p = new Person(1L, "John", "Doe", "male", "reknowned arsonist");
         Event e = new Event(1L, p, "FIRE", new Date(), "Hometown", "house burned to the ground!");
-        
+
         EventDialog d = new EventDialog(f, e, new ArrayList<>());
-        
+
         boolean saved = d.open();
-        
+
         if(saved)
         {
             out.println(d.PERSON.getText());
@@ -30,7 +31,7 @@ public class TestEventDialog
             out.println(d.PLACE.getText());
             out.println(d.NOTES.getText());
         }
-        
+
         f.dispose();
     }
 }

@@ -26,7 +26,7 @@ import mypeeps.entity2.File;
 
 public class FileDialog
 {
-    
+
     public final JDialog DIALOG;
     public final File FILE;
     public final JTextField PATH;
@@ -37,27 +37,27 @@ public class FileDialog
     private final JPanel CONTENT;
     private final JFileChooser CHOOSER;
     private boolean saved;
-    
+
     public FileDialog(Frame parent, File file)
     {
         this(new JDialog(parent, "file", true), file);
-        
+
         log(FileDialog.class, "FileDialog(Frame, File)");
     }
-    
+
     public FileDialog(Dialog parent, File file)
     {
         this(new JDialog(parent, "file", true), file);
-        
+
         log(FileDialog.class, "FileDialog(Dialog, File)");
     }
-    
+
     private FileDialog(JDialog dialog, File file)
     {
         log(FileDialog.class, "FileDialog(JDialog, File)");
-        
+
         this.DIALOG = requireNonNull(dialog);
-        
+
         this.FILE = requireNonNull(file);
         this.PATH = new JTextField(20);
         PATH.setEditable(false);
@@ -73,103 +73,103 @@ public class FileDialog
         SAVE.addActionListener(a1 -> doSaveAction());
         CANCEL = new JButton("cancel");
         CANCEL.addActionListener(a2 -> doCancelAction());
-        
+
         JPanel path = new JPanel(new BorderLayout(0, 0));
         path.add(PATH, CENTER);
         path.add(SELECT, EAST);
-        
+
         JPanel fields = new JPanel(new GridLayout(2, 1, 5, 5));
         fields.add(path);
         fields.add(DESCRIPTION);
-        
+
         JPanel labels = new JPanel(new GridLayout(2, 1, 5, 5));
         labels.add(new JLabel("file"));
         labels.add(new JLabel("description"));
-        
+
         JPanel center = new JPanel(new BorderLayout(5, 5));
         center.add(labels, WEST);
         center.add(fields, CENTER);
-        
+
         JPanel buttons = new JPanel(new GridLayout(1, 2, 5, 5));
         buttons.add(SAVE);
         buttons.add(CANCEL);
-        
+
         JPanel south = new JPanel(new FlowLayout());
         south.add(buttons);
-        
+
         CONTENT = new JPanel(new BorderLayout(5, 5));
-        CONTENT.setBorder(createEmptyBorder(10,10,10,10));
+        CONTENT.setBorder(createEmptyBorder(10, 10, 10, 10));
         CONTENT.add(center, CENTER);
         CONTENT.add(south, SOUTH);
     }
-    
+
     public boolean open()
     {
         log(FileDialog.class, "open()");
-        
+
         DIALOG.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         DIALOG.setContentPane(CONTENT);
         DIALOG.pack();
         DIALOG.setLocationRelativeTo(DIALOG.getParent());
         DIALOG.setVisible(true);
-        
+
         return saved;
-   }
-    
+    }
+
     private void doSaveAction()
     {
         log(FileDialog.class, "doSaveAction()");
-        
+
         if(doValidation())
         {
             saved = true;
             close();
         }
     }
-    
+
     private void doCancelAction()
     {
         log(FileDialog.class, "doCancelAction()");
-        
+
         saved = false;
         close();
     }
-    
+
     private void close()
     {
         log(FileDialog.class, "close()");
-        
+
         DIALOG.setVisible(false);
         DIALOG.dispose();
     }
-    
+
     private boolean doValidation()
     {
         log(FileDialog.class, "doValidation()");
-        
+
         return required("file", PATH) && required("description", DESCRIPTION);
     }
-    
+
     public File getUpdatedFile()
     {
         log(FileDialog.class, "getUpdateFile()");
-        
+
         FILE.setPath(PATH.getText());
         FILE.setDescription(DESCRIPTION.getText());
-        
+
         return FILE;
     }
 
     private void doSelectAction()
     {
         log(FileDialog.class, "doSelectAction()");
-        
+
         int option = CHOOSER.showOpenDialog(DIALOG);
-        
+
         if(option == APPROVE_OPTION)
         {
             java.io.File f = CHOOSER.getSelectedFile();
-            
+
             if(f != null)
             {
                 PATH.setText(f.getPath());

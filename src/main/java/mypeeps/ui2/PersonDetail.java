@@ -151,7 +151,7 @@ public class PersonDetail extends JPanel
 
     private void init(JPanel north, JPanel center, JPanel south)
     {
-        log(PersonDetail.class, "init(JPanel, JPanel, JPanel, JPanel)");
+        log(PersonDetail.class, "init(JPanel, JPanel, JPanel)");
 
         setBorder(createEmptyBorder(10, 10, 10, 10));
         setLayout(new BorderLayout(5, 5));
@@ -162,11 +162,15 @@ public class PersonDetail extends JPanel
 
     public boolean doValidation()
     {
+        log(PersonDetail.class, "doValidation()");
+
         return required("given name", GIVENNAME) && required("family name", FAMILYNAME);
     }
 
     public void updatePerson()
     {
+        log(PersonDetail.class, "updatePerson()");
+
         person.setGivenName(GIVENNAME.getText());
         person.setFamilyName(FAMILYNAME.getText());
         person.setGender((String) GENDER.getSelectedItem());

@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import static mypeeps.Utils.log;
 import static mypeeps.Utils.toListModel;
 import mypeeps.entity2.Person;
 
@@ -37,6 +38,8 @@ public class SelectPeopleDialog
 
     public SelectPeopleDialog(String title, List<Person> people)
     {
+        log(SelectPeopleDialog.class, "SelectPeopleDialog(String, List<Person>");
+
         TITLE = requireNonNull(title);
         LIST = new JList(toListModel(people));
         JScrollPane scroll = new JScrollPane(LIST);
@@ -59,18 +62,24 @@ public class SelectPeopleDialog
 
     public List<Person> open(Frame parent)
     {
+        log(SelectPeopleDialog.class, "open(Frame)");
+
         dialog = new JDialog(parent, "select people", true);
         return open();
     }
 
     public List<Person> open(Dialog parent)
     {
+        log(SelectPeopleDialog.class, "open(Dialog)");
+
         dialog = new JDialog(parent, "select people", true);
         return open();
     }
 
     private List<Person> open()
     {
+        log(SelectPeopleDialog.class, "open()");
+
         dialog.setContentPane(CONTENT);
         dialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         dialog.pack();
@@ -82,6 +91,8 @@ public class SelectPeopleDialog
 
     private void close(boolean value)
     {
+        log(SelectPeopleDialog.class, "close(boolean)");
+
         selected = value;
         dialog.setVisible(false);
         dialog.dispose();

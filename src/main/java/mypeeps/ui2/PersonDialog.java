@@ -65,7 +65,7 @@ public class PersonDialog
         CANCEL.addActionListener(a1 -> doCancel());
 
         CONTENT = new JPanel(new BorderLayout(5, 5));
-        CONTENT.setBorder(createEmptyBorder(10,10,10,10));
+        CONTENT.setBorder(createEmptyBorder(10, 10, 10, 10));
         CONTENT.add(north, NORTH);
         CONTENT.add(buttons(FlowLayout.CENTER, SAVE, CANCEL), CENTER);
     }
@@ -127,7 +127,7 @@ public class PersonDialog
     {
         log(PersonDialog.class, "doSave()");
 
-        if (isValid())
+        if(isValid())
         {
             saved = true;
             updatePerson();

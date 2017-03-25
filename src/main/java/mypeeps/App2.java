@@ -160,10 +160,10 @@ public class App2
 
                 List<Person> children = new ArrayList<>(DB.findChildrenOf(p));
                 TOP.DETAIL.CHILDREN.setModel(toListModel(children));
-                
+
                 List<Event> events = new ArrayList<>(DB.findEventsFor(p));
                 TOP.DETAIL.EVENTS.setModel(toListModel(events));
-                
+
                 List<File> files = new ArrayList<>(DB.findFilesForPerson(p));
                 TOP.DETAIL.FILES.setModel(toListModel(files));
             }
@@ -397,7 +397,7 @@ public class App2
         log(App2.class, "doAddEvent()");
 
         Person p = TOP.DETAIL.getPerson();
-        
+
         if(p != null)
         {
             final Event e = new Event(null, p, null, new Date(), null, null);
@@ -405,7 +405,7 @@ public class App2
             d.ADDFILES.addActionListener(a0 -> doAddEventFile(d));
             d.REMOVEFILES.addActionListener(a1 -> doRemoveEventFile(d));
             boolean saved = d.open();
-            
+
             if(saved)
             {
                 Event ue = d.getUpdatedEvent();
@@ -427,11 +427,11 @@ public class App2
         log(App2.class, "doEditEvent()");
 
         Person p = TOP.DETAIL.getPerson();
-        
+
         if(p != null)
         {
             Event e = TOP.DETAIL.EVENTS.getSelectedValue();
-            
+
             if(e != null)
             {
                 try
@@ -441,11 +441,11 @@ public class App2
                     d.ADDFILES.addActionListener(a0 -> doAddEventFile(d));
                     d.REMOVEFILES.addActionListener(a1 -> doRemoveEventFile(d));
                     boolean saved = d.open();
-                    
+
                     if(saved)
                     {
                         e = d.getUpdatedEvent();
-                        
+
                         if(DB.updateEvent(e))
                         {
                             refreshPeopleList(p);
@@ -465,11 +465,11 @@ public class App2
         log(App2.class, "doDeleteEvent()");
 
         Person p = TOP.DETAIL.getPerson();
-        
+
         if(p != null)
         {
             Event e = TOP.DETAIL.EVENTS.getSelectedValue();
-            
+
             if(e != null && confirm("Really confirm " + e + "?"))
             {
                 try
@@ -490,19 +490,19 @@ public class App2
     private void doAddEventFile(EventDialog dialog)
     {
         log(App2.class, "doAddEventFile(EventDialog)");
-        
+
         File f = new File(null, null, null);
         FileDialog d = new FileDialog(dialog.DIALOG, f);
         boolean saved = d.open();
-        
+
         if(saved)
         {
             f = d.getUpdatedFile();
-            
+
             try
             {
                 f = DB.createFile(f.getPath(), f.getDescription());
-                
+
                 if(DB.addFileToEvent(f, dialog.EVENT))
                 {
                     dialog.FILES.setModel(toListModel(DB.findFilesForEvent(dialog.EVENT)));
@@ -515,9 +515,26 @@ public class App2
         }
     }
 
-    private void doRemoveEventFile(EventDialog dialog)//TODO: complete
+    private void doRemoveEventFile(EventDialog dialog)
     {
-        log(App2.class, "doRemoveEventFile(Event, JList<File>)");
+        log(App2.class, "doRemoveEventFile(EventDialog)");
+
+        File f = dialog.FILES.getSelectedValue();
+
+        if(f != null)
+        {
+            try
+            {
+                if(confirm("Really delete " + f + "?") && DB.deleteFile(f))
+                {
+                    dialog.FILES.setModel(toListModel(DB.findFilesForEvent(dialog.EVENT)));
+                }
+            }
+            catch(DAOException ex)
+            {
+                error(ex);
+            }
+        }
     }
 
     private void doAddPersonFile()
@@ -525,13 +542,13 @@ public class App2
         log(App2.class, "doAddPersonFile()");
 
         Person p = TOP.DETAIL.getPerson();
-        
+
         if(p != null)
         {
             File file = new File(null, null, null);
             FileDialog dialog = new FileDialog(TOP.FRAME, file);
             boolean saved = dialog.open();
-            
+
             if(saved)
             {
                 try
@@ -549,8 +566,30 @@ public class App2
         }
     }
 
-    private void doDeletePersonFile()//TODO: complete
+    private void doDeletePersonFile()
     {
         log(App2.class, "doDeletePersonFile()");
+
+        Person p = TOP.DETAIL.getPerson();
+
+        if(p != null)
+        {
+            File f = TOP.DETAIL.FILES.getSelectedValue();
+
+            if(f != null)
+            {
+                try
+                {
+                    if(confirm("Really delete " + f + "?") && DB.deleteFile(f))
+                    {
+                        refreshPeopleList(p);
+                    }
+                }
+                catch(DAOException ex)
+                {
+                    error(ex);
+                }
+            }
+        }
     }
 }

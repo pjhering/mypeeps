@@ -10,7 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.List;
 import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.DefaultListModel;
@@ -33,6 +33,8 @@ public class Utils
 
     public static JPanel buttons(int align, JButton... buttons)
     {
+        log(Utils.class, "buttons(int, JButton[])");
+
         JPanel panel = new JPanel(new GridLayout(1, buttons.length, 5, 5));
 
         for(JButton button : buttons)
@@ -48,6 +50,8 @@ public class Utils
 
     public static JPanel fields(JComponent... fields)
     {
+        log(Utils.class, "fields(JComponent[])");
+
         JPanel panel = new JPanel(new GridLayout(fields.length, 1, 5, 5));
 
         for(JComponent field : fields)
@@ -60,6 +64,8 @@ public class Utils
 
     public static JPanel labels(String... titles)
     {
+        log(Utils.class, "labels(String[])");
+
         JPanel panel = new JPanel(new GridLayout(titles.length, 1, 5, 5));
 
         for(String title : titles)
@@ -72,6 +78,8 @@ public class Utils
 
     public static boolean required(String name, JTextComponent jtc)
     {
+        log(Utils.class, "required(String, JTextComponent)");
+
         String s = jtc.getText();
         s = s == null ? "" : s.trim();
         jtc.setText(s);
@@ -88,6 +96,8 @@ public class Utils
 
     public static PopupListener popup(String title, JMenuItem... items)
     {
+        log(Utils.class, "popup(String, JMenuItem[])");
+
         JPopupMenu menu = new JPopupMenu();
 
         if(title != null)
@@ -112,11 +122,15 @@ public class Utils
 
     public static PopupListener popup(JMenuItem... items)
     {
+        log(Utils.class, "popup(JMenuItem[])");
+
         return popup(null, items);
     }
 
     public static void selectOnFocus(JTextComponent jtc)
     {
+        log(Utils.class, "selectOnFocus(JTextComponent)");
+
         jtc.addFocusListener(new FocusListener()
         {
             @Override
@@ -138,11 +152,12 @@ public class Utils
     public static <E extends Comparable> ListModel<E> toListModel(Collection<E> collection)
     {
         log(Utils.class, "toListModel(Collection<E>)");
+
         DefaultListModel model = new DefaultListModel();
-        
+
         List<E> sorted = new ArrayList<>(collection);
-        Collections.sort(sorted);
-        
+        sort(sorted);
+
         sorted.forEach(p -> model.addElement(p));
         return model;
     }

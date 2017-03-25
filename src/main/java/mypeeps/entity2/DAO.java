@@ -7,7 +7,7 @@ public interface DAO
 {
 
     public void shutdown() throws DAOException;
-    
+
     public Person createPerson(String gname, String fname, String gender, String notes) throws DAOException;
 
     public Event createEvent(Person person, String title, Date date, String place, String notes) throws DAOException;
@@ -15,9 +15,9 @@ public interface DAO
     public File createFile(String path, String description) throws DAOException;
 
     public boolean addChildTo(Person parent, Person child) throws DAOException;
-    
+
     public boolean addFileToPerson(File file, Person person) throws DAOException;
-    
+
     public boolean addFileToEvent(File file, Event event) throws DAOException;
 
     public Set<Person> findAllPeople() throws DAOException;
@@ -41,9 +41,9 @@ public interface DAO
     public boolean updateFile(File file) throws DAOException;
 
     public boolean removeChildFrom(Person parent, Person child) throws DAOException;
-    
+
     public boolean removeFileFromPerson(File file, Person person) throws DAOException;
-    
+
     public boolean removeFileFromEvent(File file, Event event) throws DAOException;
 
     public boolean deletePerson(Person person) throws DAOException;

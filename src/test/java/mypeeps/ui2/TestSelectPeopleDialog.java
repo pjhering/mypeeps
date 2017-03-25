@@ -34,7 +34,7 @@ public class TestSelectPeopleDialog
         SelectPeopleDialog dialog = new SelectPeopleDialog("select people", people);
         List<Person> selected = dialog.open(frame);
 
-        if (selected != null)
+        if(selected != null)
         {
             JList<Person> list = new JList(toListModel(selected));
             frame.setContentPane(new JScrollPane(list));

@@ -33,6 +33,7 @@ public class Top
     public Top()
     {
         log(Top.class, "Top()");
+
         LIST = new JList<>();
         JScrollPane listScroll = new JScrollPane(LIST);
 
@@ -45,30 +46,33 @@ public class Top
 
         SPLIT = new JSplitPane(HORIZONTAL_SPLIT);
         SPLIT.setResizeWeight(0.25);
-        SPLIT.setBorder(createEmptyBorder(10,10,10,10));
+        SPLIT.setBorder(createEmptyBorder(10, 10, 10, 10));
         SPLIT.setLeftComponent(listScroll);
         SPLIT.setRightComponent(DETAIL);
-        
+
         EMPTY = new JPanel();
 
         FRAME.setContentPane(SPLIT);
     }
-    
+
     public void showDetailView()
     {
         log(Top.class, "showDetailView()");
+
         SPLIT.setRightComponent(DETAIL);
     }
-    
+
     public void showEmptyView()
     {
         log(Top.class, "showEmptyView()");
+
         SPLIT.setRightComponent(EMPTY);
     }
 
     public void show()
     {
         log(Top.class, "show()");
+
         Dimension size = FRAME.getToolkit().getScreenSize();
         FRAME.setSize(size.width * 95 / 100, size.height * 90 / 100);
         FRAME.setLocationRelativeTo(null);
