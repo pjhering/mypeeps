@@ -8,13 +8,14 @@ public class TestFileDialog
 {
     public static void main(String[] args)
     {
-        File file = new File(1L, "/this/is/the/path", "this is the description");
-        FileDialog d = new FileDialog(file);
-        
         JFrame f = new JFrame();
         f.setSize(100, 100);
         f.setLocationRelativeTo(null);
-        boolean saved = d.open(f);
+
+        File file = new File(1L, "/this/is/the/path", "this is the description");
+        FileDialog d = new FileDialog(f, file);
+        
+        boolean saved = d.open();
         
         if(saved)
         {

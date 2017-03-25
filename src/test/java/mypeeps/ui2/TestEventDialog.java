@@ -11,15 +11,16 @@ public class TestEventDialog
 {
     public static void main(String[] args)
     {
-        Person p = new Person(1L, "John", "Doe", "male", "reknowned arsonist");
-        Event e = new Event(1L, p, "FIRE", new Date(), "Hometown", "house burned to the ground!");
-        
-        EventDialog d = new EventDialog(e, new ArrayList<>());
-        
         JFrame f = new JFrame();
         f.setSize(100, 100);
         f.setLocationRelativeTo(null);
-        boolean saved = d.open(f);
+
+        Person p = new Person(1L, "John", "Doe", "male", "reknowned arsonist");
+        Event e = new Event(1L, p, "FIRE", new Date(), "Hometown", "house burned to the ground!");
+        
+        EventDialog d = new EventDialog(f, e, new ArrayList<>());
+        
+        boolean saved = d.open();
         
         if(saved)
         {

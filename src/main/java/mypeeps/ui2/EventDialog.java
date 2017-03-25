@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import static mypeeps.Utils.FMT;
+import static mypeeps.Utils.log;
 import static mypeeps.Utils.popup;
 import static mypeeps.Utils.required;
 import static mypeeps.Utils.selectOnFocus;
@@ -41,8 +42,9 @@ import mypeeps.entity2.File;
 public class EventDialog
 {
 
-    private final Event EVENT;
-    private final List<File> EVENTFILES;
+    public final JDialog DIALOG;
+    public final Event EVENT;
+    public final List<File> EVENTFILES;
     public final JTextField PERSON;
     public final JTextField TITLE;
     public final JFormattedTextField DATE;
@@ -50,16 +52,34 @@ public class EventDialog
     public final JTextArea NOTES;
     public final JList<File> FILES;
     public final JMenuItem ADDFILES;
+//    public final JMenuItem EDITFILE;
     public final JMenuItem REMOVEFILES;
     public final PopupListener FILESMENU;
     private final JButton SAVE;
     private final JButton CANCEL;
     private final JPanel CONTENT;
-    private JDialog dialog;
     private boolean saved;
 
-    public EventDialog(Event event, List<File> files)
+    public EventDialog(Frame parent, Event event, List<File> files)
     {
+        this(new JDialog(parent, "event", true), event, files);
+        
+        log(EventDialog.class, "EventDialog(Frame,  Event, List<File>)");
+    }
+    
+    public EventDialog(Dialog parent, Event event, List<File> files)
+    {
+        this(new JDialog(parent, "event", true), event, files);
+        
+        log(EventDialog.class, "EventDialog(Dialog,  Event, List<File>)");
+    }
+    
+    private EventDialog(JDialog dialog, Event event, List<File> files)
+    {
+        log(EventDialog.class, "EventDialog(JDialog, Event, List<File>)");
+        
+        this.DIALOG = requireNonNull(dialog);
+        
         this.EVENT = requireNonNull(event);
         this.EVENTFILES = requireNonNull(files);
         
@@ -120,8 +140,11 @@ public class EventDialog
         boolean enabled = EVENT.getId() != null;
         ADDFILES = new JMenuItem("add");
         ADDFILES.setEnabled(enabled);
+//        EDITFILE = new JMenuItem("edit");
+//        EDITFILE.setEnabled(enabled);
         REMOVEFILES = new JMenuItem("remove");
         REMOVEFILES.setEnabled(enabled);
+//        FILESMENU = popup("files", ADDFILES, EDITFILE, REMOVEFILES);
         FILESMENU = popup("files", ADDFILES, REMOVEFILES);
         FILES.addMouseListener(FILESMENU);
         
@@ -133,31 +156,23 @@ public class EventDialog
         FILES.setModel(toListModel(EVENTFILES));
     }
 
-    public boolean open(Frame parent)
+    public boolean open()
     {
-        dialog = new JDialog(parent, "event", true);
-        return open();
-    }
-
-    public boolean open(Dialog parent)
-    {
-        dialog = new JDialog(parent, "event", true);
-        return open();
-    }
-    
-    private boolean open()
-    {
-        dialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        dialog.setContentPane(CONTENT);
-        dialog.pack();
-        dialog.setLocationRelativeTo(dialog.getParent());
-        dialog.setVisible(true);
+        log(EventDialog.class, "open()");
+        
+        DIALOG.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        DIALOG.setContentPane(CONTENT);
+        DIALOG.pack();
+        DIALOG.setLocationRelativeTo(DIALOG.getParent());
+        DIALOG.setVisible(true);
         
         return saved;
     }
 
     private boolean doValidation()
     {
+        log(EventDialog.class, "doValidation()");
+        
         return required("title", TITLE)
                 && required("place", PLACE)
                 && required("date", DATE);
@@ -165,6 +180,8 @@ public class EventDialog
     
     public Event getUpdatedEvent()
     {
+        log(EventDialog.class, "getUpdateEvent()");
+        
         EVENT.setDate((Date) DATE.getValue());
         EVENT.setNotes(NOTES.getText());
         EVENT.setPlace(PLACE.getText());
@@ -175,6 +192,8 @@ public class EventDialog
 
     private void doSaveAction()
     {
+        log(EventDialog.class, "doSaveAction()");
+        
         if(doValidation())
         {
             saved = true;
@@ -184,13 +203,17 @@ public class EventDialog
 
     private void doCancelAction()
     {
+        log(EventDialog.class, "doCancelAction()");
+        
         saved = false;
         close();
     }
 
     private void close()
     {
-        dialog.setVisible(false);
-        dialog.dispose();
+        log(EventDialog.class, "close()");
+        
+        DIALOG.setVisible(false);
+        DIALOG.dispose();
     }
 }

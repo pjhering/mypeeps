@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 import java.util.Set;
-import javax.swing.JList;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
@@ -71,7 +70,6 @@ public class App2
         TOP.DETAIL.EDITEVENT.addActionListener(a9 -> doEditEvent());
         TOP.DETAIL.DELETEEVENT.addActionListener(aa -> doDeleteEvent());
         TOP.DETAIL.ADDFILE.addActionListener(ab -> doAddPersonFile());
-        TOP.DETAIL.EDITFILE.addActionListener(ac -> doEditPersonFile());
         TOP.DETAIL.DELETEFILE.addActionListener(ad -> doDeletePersonFile());
     }
 
@@ -403,10 +401,10 @@ public class App2
         if(p != null)
         {
             final Event e = new Event(null, p, null, new Date(), null, null);
-            final EventDialog d = new EventDialog(e, new ArrayList<>());
-            d.ADDFILES.addActionListener(a0 -> doAddEventFile(e, d.FILES));
-            d.REMOVEFILES.addActionListener(a1 -> doRemoveEventFile(e, d.FILES));
-            boolean saved = d.open(TOP.FRAME);
+            final EventDialog d = new EventDialog(TOP.FRAME, e, new ArrayList<>());
+            d.ADDFILES.addActionListener(a0 -> doAddEventFile(d));
+            d.REMOVEFILES.addActionListener(a1 -> doRemoveEventFile(d));
+            boolean saved = d.open();
             
             if(saved)
             {
@@ -439,8 +437,10 @@ public class App2
                 try
                 {
                     List<File> files = new ArrayList<>(DB.findFilesForEvent(e));
-                    EventDialog d = new EventDialog(e, files);
-                    boolean saved = d.open(TOP.FRAME);
+                    EventDialog d = new EventDialog(TOP.FRAME, e, files);
+                    d.ADDFILES.addActionListener(a0 -> doAddEventFile(d));
+                    d.REMOVEFILES.addActionListener(a1 -> doRemoveEventFile(d));
+                    boolean saved = d.open();
                     
                     if(saved)
                     {
@@ -487,16 +487,37 @@ public class App2
         }
     }
 
-    private void doAddEventFile(Event e, JList<File> list)
+    private void doAddEventFile(EventDialog dialog)
     {
-        log(App2.class, "doAddEventFile(Event, JList<File>)");
-
+        log(App2.class, "doAddEventFile(EventDialog)");
+        
+        File f = new File(null, null, null);
+        FileDialog d = new FileDialog(dialog.DIALOG, f);
+        boolean saved = d.open();
+        
+        if(saved)
+        {
+            f = d.getUpdatedFile();
+            
+            try
+            {
+                f = DB.createFile(f.getPath(), f.getDescription());
+                
+                if(DB.addFileToEvent(f, dialog.EVENT))
+                {
+                    dialog.FILES.setModel(toListModel(DB.findFilesForEvent(dialog.EVENT)));
+                }
+            }
+            catch(DAOException ex)
+            {
+                error(ex);
+            }
+        }
     }
-    
-    private void doRemoveEventFile(Event e, JList<File> list)
+
+    private void doRemoveEventFile(EventDialog dialog)//TODO: complete
     {
         log(App2.class, "doRemoveEventFile(Event, JList<File>)");
-
     }
 
     private void doAddPersonFile()
@@ -508,8 +529,8 @@ public class App2
         if(p != null)
         {
             File file = new File(null, null, null);
-            FileDialog dialog = new FileDialog(file);
-            boolean saved = dialog.open(TOP.FRAME);
+            FileDialog dialog = new FileDialog(TOP.FRAME, file);
+            boolean saved = dialog.open();
             
             if(saved)
             {
@@ -528,15 +549,8 @@ public class App2
         }
     }
 
-    private void doEditPersonFile()
-    {
-        log(App2.class, "doEditPersonFile()");
-
-    }
-
-    private void doDeletePersonFile()
+    private void doDeletePersonFile()//TODO: complete
     {
         log(App2.class, "doDeletePersonFile()");
-
     }
 }

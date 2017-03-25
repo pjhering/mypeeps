@@ -60,7 +60,6 @@ public class PersonDetail extends JPanel
 
     public final JList<File> FILES;
     public final JMenuItem ADDFILE;
-    public final JMenuItem EDITFILE;
     public final JMenuItem DELETEFILE;
     public final PopupListener FILESMENU;
 
@@ -124,9 +123,8 @@ public class PersonDetail extends JPanel
         JScrollPane attachmentsScroll = new JScrollPane(FILES);
         attachmentsScroll.setBorder(createTitledBorder("files"));
         ADDFILE = new JMenuItem("add");
-        EDITFILE = new JMenuItem("edit");
         DELETEFILE = new JMenuItem("delete");
-        FILESMENU = popup("files", ADDFILE, EDITFILE, DELETEFILE);
+        FILESMENU = popup("files", ADDFILE, DELETEFILE);
         FILES.addMouseListener(FILESMENU);
 
         JPanel fields = new JPanel(new GridLayout(1, 3, 5, 5));

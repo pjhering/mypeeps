@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import static mypeeps.Utils.log;
 import static mypeeps.Utils.required;
 import static mypeeps.Utils.selectOnFocus;
 import mypeeps.entity2.File;
@@ -26,6 +27,7 @@ import mypeeps.entity2.File;
 public class FileDialog
 {
     
+    public final JDialog DIALOG;
     public final File FILE;
     public final JTextField PATH;
     public final JTextField DESCRIPTION;
@@ -34,11 +36,28 @@ public class FileDialog
     private final JButton SELECT;
     private final JPanel CONTENT;
     private final JFileChooser CHOOSER;
-    private JDialog dialog;
     private boolean saved;
     
-    public FileDialog(File file)
+    public FileDialog(Frame parent, File file)
     {
+        this(new JDialog(parent, "file", true), file);
+        
+        log(FileDialog.class, "FileDialog(Frame, File)");
+    }
+    
+    public FileDialog(Dialog parent, File file)
+    {
+        this(new JDialog(parent, "file", true), file);
+        
+        log(FileDialog.class, "FileDialog(Dialog, File)");
+    }
+    
+    private FileDialog(JDialog dialog, File file)
+    {
+        log(FileDialog.class, "FileDialog(JDialog, File)");
+        
+        this.DIALOG = requireNonNull(dialog);
+        
         this.FILE = requireNonNull(file);
         this.PATH = new JTextField(20);
         PATH.setEditable(false);
@@ -84,31 +103,23 @@ public class FileDialog
         CONTENT.add(south, SOUTH);
     }
     
-    public boolean open(Frame parent)
+    public boolean open()
     {
-        dialog = new JDialog(parent, "files", true);
-        return open();
-    }
-    
-    public boolean open(Dialog parent)
-    {
-        dialog = new JDialog(parent, "files", true);
-        return open();
-    }
-    
-    private boolean open()
-    {
-        dialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        dialog.setContentPane(CONTENT);
-        dialog.pack();
-        dialog.setLocationRelativeTo(dialog.getParent());
-        dialog.setVisible(true);
+        log(FileDialog.class, "open()");
+        
+        DIALOG.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        DIALOG.setContentPane(CONTENT);
+        DIALOG.pack();
+        DIALOG.setLocationRelativeTo(DIALOG.getParent());
+        DIALOG.setVisible(true);
         
         return saved;
    }
     
     private void doSaveAction()
     {
+        log(FileDialog.class, "doSaveAction()");
+        
         if(doValidation())
         {
             saved = true;
@@ -118,23 +129,31 @@ public class FileDialog
     
     private void doCancelAction()
     {
+        log(FileDialog.class, "doCancelAction()");
+        
         saved = false;
         close();
     }
     
     private void close()
     {
-        dialog.setVisible(false);
-        dialog.dispose();
+        log(FileDialog.class, "close()");
+        
+        DIALOG.setVisible(false);
+        DIALOG.dispose();
     }
     
     private boolean doValidation()
     {
+        log(FileDialog.class, "doValidation()");
+        
         return required("file", PATH) && required("description", DESCRIPTION);
     }
     
     public File getUpdatedFile()
     {
+        log(FileDialog.class, "getUpdateFile()");
+        
         FILE.setPath(PATH.getText());
         FILE.setDescription(DESCRIPTION.getText());
         
@@ -143,7 +162,9 @@ public class FileDialog
 
     private void doSelectAction()
     {
-        int option = CHOOSER.showOpenDialog(dialog);
+        log(FileDialog.class, "doSelectAction()");
+        
+        int option = CHOOSER.showOpenDialog(DIALOG);
         
         if(option == APPROVE_OPTION)
         {
