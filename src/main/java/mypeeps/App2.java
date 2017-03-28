@@ -4,10 +4,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import static java.lang.System.exit;
 import java.util.ArrayList;
+import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.Date;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 import java.util.Set;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javax.swing.JDialog;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
@@ -15,6 +22,8 @@ import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.JScrollPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static mypeeps.Utils.log;
 import static mypeeps.Utils.toListModel;
 import mypeeps.entity2.DAO;
@@ -59,6 +68,7 @@ public class App2
             }
         });
         TOP.LIST.addListSelectionListener(a0 -> doListSelectionChanged());
+        TOP.PRINT.addActionListener(ae -> doPrint());
         TOP.CREATEPERSON.addActionListener(a1 -> doCreatePerson());
         TOP.DETAIL.UPDATE.addActionListener(a2 -> doUpdateDetail());
         TOP.DETAIL.DELETE.addActionListener(a3 -> doDeleteDetail());
@@ -590,6 +600,134 @@ public class App2
                     error(ex);
                 }
             }
+        }
+    }
+
+    private void doPrint()
+    {
+        try
+        {
+            StringBuilder b = new StringBuilder();
+            b.append("<!DOCTYPE html><html><head><title>MyPeeps</title></head><body>");
+            List<Person> people = new ArrayList<>(DB.findAllPeople());
+            sort(people);
+            
+            for(Person person : people)
+            {
+                b.append("<div><b>")
+                        .append(person.toString())
+                        .append("</b><br>");
+                
+                if(person.getNotes() != null && person.getNotes().length() > 0)
+                {
+                    b.append("&nbsp;&nbsp;&nbsp;&nbsp;<em>")
+                            .append(person.getNotes())
+                            .append("</em><br>");
+                }
+                
+                List<File> pfiles = new ArrayList<>(DB.findFilesForPerson(person));
+                sort(pfiles);
+                
+                if(!pfiles.isEmpty())
+                {
+                    for(File pfile : pfiles)
+                    {
+                        b.append("<a href=\"file_")
+                                .append(pfile.getId())
+                                .append("\">")
+                                .append(pfile.toString())
+                                .append("</a><br>");
+                    }
+                }
+                
+                List<Person> parents = new ArrayList<>(DB.findParentsOf(person));
+                sort(parents);
+                
+                if(!parents.isEmpty())
+                {
+                    b.append("Parents<br>");
+                    
+                    for(Person parent : parents)
+                    {
+                        b.append("&nbsp;-&nbsp;")
+                                .append(parent.toString())
+                                .append("<br>");
+                    }
+                }
+                
+                List<Person> children = new ArrayList<>(DB.findChildrenOf(person));
+                sort(children);
+                
+                if(!children.isEmpty())
+                {
+                    b.append("Children<br>");
+                    
+                    for(Person child : children)
+                    {
+                        b.append("&nbsp;-&nbsp;")
+                                .append(child.toString())
+                                .append(" [")
+                                .append(child.getGender())
+                                .append("]<br>");
+                    }
+                }
+                
+                List<Event> events = new ArrayList<>(DB.findEventsFor(person));
+                sort(events);
+                
+                if(!events.isEmpty())
+                {
+                    b.append("Events<br>");
+                    
+                    for(Event event : events)
+                    {
+                        b.append("&nbsp;-&nbsp;")
+                                .append(event.toString())
+                                .append("<br>");
+                        
+                        if(event.getNotes() != null && event.getNotes().length() > 0)
+                        {
+                            b.append("&nbsp;&nbsp;&nbsp;&nbsp;<em>")
+                                    .append(event.getNotes())
+                                    .append("</em><br>");
+                        }
+                        
+                        List<File> files = new ArrayList<>(DB.findFilesForEvent(event));
+                        sort(files);
+                        
+                        for(File file : files)
+                        {
+                            b.append("&nbsp;-&nbsp;")
+                                    .append("<a href=\"#file_")
+                                    .append(file.getId())
+                                    .append("\">")
+                                    .append(file.toString())
+                                    .append("</a><br>");
+                        }
+                    }
+                }
+                
+                b.append("</div><br><br>");
+            }
+            b.append("</body></html>");
+            
+            JFXPanel jfx = new JFXPanel();
+            Platform.runLater(()->
+            {
+                WebView web = new WebView();
+                web.getEngine().loadContent(b.toString());
+                jfx.setScene(new Scene(web));
+            });
+            JDialog dialog = new JDialog(TOP.FRAME, "preview", true);
+            dialog.setContentPane(new JScrollPane(jfx));
+            dialog.setSize(TOP.FRAME.getSize());
+            dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            dialog.setLocationRelativeTo(TOP.FRAME);
+            dialog.setVisible(true);
+        }
+        catch(DAOException ex)
+        {
+            error(ex);
         }
     }
 }

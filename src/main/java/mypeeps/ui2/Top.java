@@ -1,7 +1,11 @@
 package mypeeps.ui2;
 
+import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.SOUTH;
 import java.awt.Dimension;
 import static javax.swing.BorderFactory.createEmptyBorder;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -28,14 +32,20 @@ public class Top
     public final JMenuItem CREATEPERSON;
     public final PopupListener PERSONMENU;
     public final JSplitPane SPLIT;
+    public final JButton PRINT;
     private final JPanel EMPTY;
-
+    
     public Top()
     {
         log(Top.class, "Top()");
 
         LIST = new JList<>();
         JScrollPane listScroll = new JScrollPane(LIST);
+        PRINT = new JButton("preview");
+        
+        JPanel left = new JPanel(new BorderLayout(5, 5));
+        left.add(listScroll, CENTER);
+        left.add(PRINT, SOUTH);
 
         CREATEPERSON = new JMenuItem("create");
         PERSONMENU = popup("person", CREATEPERSON);
@@ -47,7 +57,7 @@ public class Top
         SPLIT = new JSplitPane(HORIZONTAL_SPLIT);
         SPLIT.setResizeWeight(0.25);
         SPLIT.setBorder(createEmptyBorder(10, 10, 10, 10));
-        SPLIT.setLeftComponent(listScroll);
+        SPLIT.setLeftComponent(left);
         SPLIT.setRightComponent(DETAIL);
 
         EMPTY = new JPanel();

@@ -101,7 +101,18 @@ public class File implements Comparable<File>
     {
         log(File.class, "compareTo(File)");
 
-        return path.compareTo(o.path);
+        java.io.File me = new java.io.File(path);
+        java.io.File you = new java.io.File(o.path);
+        int value = me.getName().compareTo(you.getName());
+        
+        if(value == 0)
+        {
+            return path.compareTo(o.path);
+        }
+        else
+        {
+            return value;
+        }
     }
 
     @Override
